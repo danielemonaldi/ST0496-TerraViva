@@ -1,4 +1,4 @@
-package com.unicam.ST0496TerraViva;
+package it.unicam.cs.ids.TerraViva;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
