@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @MapLike
+@NeedsAuthorization
 public class POI implements Contributable{
     private String name;
     private double latitude;
