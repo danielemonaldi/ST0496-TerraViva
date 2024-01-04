@@ -16,13 +16,15 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private String email;
+    private Role role;
 
     public User() {}
 
-    public User(String username, String password, String email) {
+    public User(String username, String password, String email, Role role) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
 
     @Override
@@ -43,6 +45,10 @@ public class User implements UserDetails {
     public String getEmail() {
         return this.email;
     }
+
+    public Role getRole() {return this.role;}
+
+    public void setRole(Role role) {this.role = role;}
 
     @Override
     public boolean isAccountNonExpired() {
