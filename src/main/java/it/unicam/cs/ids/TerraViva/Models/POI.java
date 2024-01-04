@@ -7,14 +7,15 @@ import java.util.Date;
 import java.util.List;
 
 @MapLike
-@NeedsAuthorization
-public class POI implements Contributable{
+public class POI implements Contributable, AuthorizationSubject {
     private String name;
     private double latitude;
     private double longitude;
     private final Date creation;
     private Date expire;
-    private List<Contribute> contents;
+    private boolean authorized;
+
+    private final List<Contribute> contents;
 
     // DA MODIFICARE CON TIPO UTENTE //
     private final String author;
@@ -27,6 +28,7 @@ public class POI implements Contributable{
         this.expire = expire;
         this.author = author;
         this.contents = new ArrayList<Contribute>();
+        this.authorized = false;
     }
 
     public String getName() {
@@ -69,6 +71,12 @@ public class POI implements Contributable{
         return author;
     }
 
+    public List<Contribute> getContents() {
+        return contents;
+    }
+
+    public boolean authorized() { return authorized; }
+
     @Override
     public void post(Contribute item) {
         this.contents.add(item);
@@ -77,5 +85,15 @@ public class POI implements Contributable{
     @Override
     public void delete(Contribute item) {
         this.contents.remove(item);
+    }
+
+    @Override
+    public void authorize() {
+        this.authorized = true;
+    }
+
+    @Override
+    public void deny() {
+        this.authorized = false;
     }
 }
