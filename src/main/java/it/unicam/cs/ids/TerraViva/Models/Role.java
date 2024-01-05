@@ -1,11 +1,18 @@
 package it.unicam.cs.ids.TerraViva.Models;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
     AUTHORIZED_TOURIST,
     CONTRIBUTOR,
     AUTHORIZED_CONTRIBUTOR,
     ENTERTAINER,
     AUTHORIZED_ENTERTAINER,
     MANAGER,
-    CURATOR
+    CURATOR;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }
