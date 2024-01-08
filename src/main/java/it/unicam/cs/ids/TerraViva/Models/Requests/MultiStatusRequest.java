@@ -1,19 +1,21 @@
 package it.unicam.cs.ids.TerraViva.Models.Requests;
 
+import it.unicam.cs.ids.TerraViva.Models.User;
+
 import java.util.Date;
 
 public class MultiStatusRequest implements Request {
-    private final String author;
+    private final User author;
     private final Date creation;
     private RequestStatus status = RequestStatus.PENDING;
 
-    public MultiStatusRequest(String author, Date creation) {
+    public MultiStatusRequest(User author, Date creation) {
         this.author = author;
         this.creation = creation;
     }
 
     @Override
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
 

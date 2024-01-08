@@ -4,6 +4,7 @@ import it.unicam.cs.ids.TerraViva.Models.Contributable;
 import it.unicam.cs.ids.TerraViva.Models.POI;
 import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
 import it.unicam.cs.ids.TerraViva.Models.Services.POIServices;
+import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.annotation.Nullable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,7 @@ public class POIController {
                        @RequestParam(name="latitude") double latitude,
                        @RequestParam(name="longitude") double longitude,
                        @RequestParam(name="expire") @Nullable Date expire,
-                       @RequestParam(name="author") String author){
+                       @RequestParam(name="author") User author){
         AuthorizationRequest request = POIServices.create(name, latitude, longitude, expire, author);
 
     }

@@ -2,6 +2,8 @@ package it.unicam.cs.ids.TerraViva.Models.Services;
 
 import it.unicam.cs.ids.TerraViva.Models.POI;
 import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
+import it.unicam.cs.ids.TerraViva.Models.Role;
+import it.unicam.cs.ids.TerraViva.Models.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +19,7 @@ public class POIServicesTest {
         double latitude = 40.7128;
         double longitude = -74.0060;
         Date expire = new Date(System.currentTimeMillis() + 86400000); // Set expire date to 1 day from now
-        String author = "TestUser";
+        User author = new User("xdani34", "1234", "mm@gmail.com", Role.CONTRIBUTOR);
 
         AuthorizationRequest authorizationRequest = POIServices.create(name, latitude, longitude, expire, author);
 

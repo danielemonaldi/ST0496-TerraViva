@@ -2,6 +2,7 @@ package it.unicam.cs.ids.TerraViva.Models.Services;
 
 import it.unicam.cs.ids.TerraViva.Models.POI;
 import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
+import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.annotation.Nullable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,7 +13,7 @@ public class POIServices {
                                               double latitude,
                                               double longitude,
                                               @Nullable Date expire,
-                                              String author){
+                                              User author){
         Date creation = new Date(System.currentTimeMillis());
         POI poi = new POI(name, latitude, longitude, creation, expire, author);
         return new AuthorizationRequest(author, poi, creation);

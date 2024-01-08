@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.TerraViva.Models;
 
 import jakarta.annotation.Nullable;
+import jakarta.persistence.Entity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,10 +18,9 @@ public class POI implements Contributable, AuthorizationSubject {
 
     private final List<Contribute> contents;
 
-    // DA MODIFICARE CON TIPO UTENTE //
-    private final String author;
+    private final User author;
 
-    public POI(String name, double latitude, double longitude, Date creation, @Nullable Date expire, String author) {
+    public POI(String name, double latitude, double longitude, Date creation, @Nullable Date expire, User author) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -67,7 +67,7 @@ public class POI implements Contributable, AuthorizationSubject {
         this.expire = expire;
     }
 
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
 

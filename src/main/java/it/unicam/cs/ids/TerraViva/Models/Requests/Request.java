@@ -1,9 +1,11 @@
 package it.unicam.cs.ids.TerraViva.Models.Requests;
 
+import it.unicam.cs.ids.TerraViva.Models.User;
+
 import java.util.Date;
 
 public interface Request {
-    String getAuthor();
+    User getAuthor();
     Date getCreationDate();
     boolean approved();
     boolean rejected();
