@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.TerraViva.Models;
+package it.unicam.cs.ids.TerraViva.Models.ToAuthorize;
 
 
 public interface AuthorizationSubject {

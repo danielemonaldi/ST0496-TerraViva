@@ -5,7 +5,8 @@ import it.unicam.cs.ids.TerraViva.Models.User;
 import java.util.Date;
 
 public interface Request {
-    User getAuthor();
+    long getID();
+    String getAuthor();
     Date getCreationDate();
     boolean approved();
     boolean rejected();

@@ -1,8 +1,7 @@
 package it.unicam.cs.ids.TerraViva.Controllers;
 
-import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
 import it.unicam.cs.ids.TerraViva.Models.Services.POIServices;
-import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +23,8 @@ public class POIController {
                        @RequestParam(name="expire") @Nullable Date expire,
                        @RequestParam(name="author") String author){
         try{
-            AuthorizationRequest request = poiServices.create(name, latitude, longitude, expire, author);
+            POI poi = poiServices.create(name, latitude, longitude, expire, author);
+            poiServices.publish(author, poi);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

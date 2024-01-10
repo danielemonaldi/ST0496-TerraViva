@@ -1,21 +1,32 @@
 package it.unicam.cs.ids.TerraViva.Models.Requests;
 
 import it.unicam.cs.ids.TerraViva.Models.User;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
-public class MultiStatusRequest implements Request {
-    private final User author;
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class MultiStatusRequest implements Request {
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private long ID;
+    private final String author;
     private final Date creation;
     private RequestStatus status = RequestStatus.PENDING;
 
-    public MultiStatusRequest(User author, Date creation) {
+    public MultiStatusRequest(String author, Date creation) {
         this.author = author;
         this.creation = creation;
     }
 
     @Override
-    public User getAuthor() {
+    public long getID() {
+        return ID;
+    }
+
+    @Override
+    public String getAuthor() {
         return author;
     }
 
