@@ -2,6 +2,7 @@ package it.unicam.cs.ids.TerraViva.Models.Requests;
 
 
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.AuthorizationEntity;
+import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -15,12 +16,9 @@ public class AuthorizationRequest extends MultiStatusRequest {
     @JoinColumn(name = "content_id", referencedColumnName = "ID")
     private AuthorizationEntity content;
 
-    public AuthorizationRequest(){
-        super("", new Date(System.currentTimeMillis()));
-        this.content = null;
-    }
+    public AuthorizationRequest(){}
 
-    public AuthorizationRequest(String author, AuthorizationEntity content, Date creationDate) {
+    public AuthorizationRequest(User author, AuthorizationEntity content, Date creationDate) {
         super(author, creationDate);
         this.content = content;
     }

@@ -2,6 +2,7 @@ package it.unicam.cs.ids.TerraViva.Models.Services;
 
 import it.unicam.cs.ids.TerraViva.Handlers.RequestsHandler;
 import it.unicam.cs.ids.TerraViva.Models.Requests.MultiStatusRequest;
+import it.unicam.cs.ids.TerraViva.Models.RequestsBodies.POICreationRequestBody;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
 import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
 import it.unicam.cs.ids.TerraViva.Models.User;
@@ -25,32 +26,28 @@ public class POIServices {
     @Autowired
     private RequestsHandler reqHandler;
 
-    public POI create(String name,
-                      double latitude,
-                      double longitude,
-                      @Nullable Date expire,
-                      String author) throws Exception {
-        Optional<User> user = usersRepository.findByUsername(author);
+    private User getUserFromUsername(String username) throws Exception {
+        Optional<User> user = usersRepository.findByUsername(username);
         if(user.isEmpty()) throw new Exception("Author not found");
-        Date creation = new Date(System.currentTimeMillis());
-        POI poi = new POI(name, latitude, longitude, creation, expire, user.get().getUsername());
+        return user.get();
+    }
 
+    public POI create(POICreationRequestBody template) throws Exception {
+        Date creation = new Date(System.currentTimeMillis());
+        POI poi = new POI(template.getName(),
+                template.getLatitude(),
+                template.getLongitude(),
+                creation,
+                template.getExpire(),
+                getUserFromUsername(template.getAuthor()));
         poiRepository.save(poi);
-        poiRepository.findAll().forEach(System.out::println);
-        for(POI o : poiRepository.findAll()) {
-            System.out.println(o.getAuthor());
-            System.out.println(o.getCreation());
-            System.out.println(o.getExpire());
-            System.out.println(o.getName());
-        }
+        publish(template.getAuthor(), poi);
         return poi;
     }
 
     public void publish(String author, POI poi) throws Exception {
-        Optional<User> user = usersRepository.findByUsername(author);
-        if(user.isEmpty()) throw new Exception("Author not found");
         Date creation = new Date(System.currentTimeMillis());
-        MultiStatusRequest request = new AuthorizationRequest(user.get().getUsername(), poi, creation);
+        MultiStatusRequest request = new AuthorizationRequest(getUserFromUsername(author), poi, creation);
         reqHandler.submit(request);
     }
 }

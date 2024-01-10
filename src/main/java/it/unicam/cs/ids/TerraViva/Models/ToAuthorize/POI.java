@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.TerraViva.Models.ToAuthorize;
 
+import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
@@ -13,11 +14,11 @@ public class POI extends AuthorizationEntity {
     private double longitude;
     private Date creation;
     private Date expire;
-    private String author;
+    private User author;
 
     public POI(){}
 
-    public POI(String name, double latitude, double longitude, Date creation, @Nullable Date expire, String author) {
+    public POI(String name, double latitude, double longitude, Date creation, @Nullable Date expire, User author) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -54,6 +55,10 @@ public class POI extends AuthorizationEntity {
         return creation;
     }
 
+    public void setCreation(Date creation) {
+        this.creation = creation;
+    }
+
     public Date getExpire() {
         return expire;
     }
@@ -62,7 +67,12 @@ public class POI extends AuthorizationEntity {
         this.expire = expire;
     }
 
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 public class RequestsHandler {
-    private final List<Request> pendingList;
+    private List<MultiStatusRequest> pendingList;
     private static RequestsHandler instance;
 
     @Autowired
@@ -30,28 +30,25 @@ public class RequestsHandler {
         return instance;
     }
 
-    public List<Request> pendingRequests(){
+    public List<MultiStatusRequest> pendingRequests(){
         return pendingList;
+    }
+    public void setRequests(List<MultiStatusRequest> requests){
+        this.pendingList = requests;
     }
 
     public void submit(MultiStatusRequest request){
         if(request instanceof AuthorizationRequest) authRequestRepository.save((AuthorizationRequest) request);
-        System.out.println(authRequestRepository.findAll());
-        for(AuthorizationRequest o : authRequestRepository.findAll()){
-            System.out.println(o.getAuthor());
-            System.out.println(o.getContent());
-            System.out.println(o.getCreationDate());
-        }
         pendingList.add(request);
     }
 
     public void accept(long ID){
-        Optional<Request> request = pendingList.stream().filter(req -> req.getID() == ID).findFirst();
+        Optional<MultiStatusRequest> request = pendingList.stream().filter(req -> req.getID() == ID).findFirst();
         request.ifPresent(Request::approve);
     }
 
     public void reject(long ID){
-        Optional<Request> request = pendingList.stream().filter(req -> req.getID() == ID).findFirst();
+        Optional<MultiStatusRequest> request = pendingList.stream().filter(req -> req.getID() == ID).findFirst();
         request.ifPresent(Request::reject);
     }
 

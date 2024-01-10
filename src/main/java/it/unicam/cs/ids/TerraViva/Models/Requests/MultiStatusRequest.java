@@ -11,11 +11,17 @@ public abstract class MultiStatusRequest implements Request {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private long ID;
-    private final String author;
-    private final Date creation;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_username", referencedColumnName = "username")
+    private User author;
+
+    private Date creation;
     private RequestStatus status = RequestStatus.PENDING;
 
-    public MultiStatusRequest(String author, Date creation) {
+    public MultiStatusRequest(){}
+
+    public MultiStatusRequest(User author, Date creation) {
         this.author = author;
         this.creation = creation;
     }
@@ -26,13 +32,23 @@ public abstract class MultiStatusRequest implements Request {
     }
 
     @Override
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
+    }
+
+    @Override
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     @Override
     public Date getCreationDate() {
         return creation;
+    }
+
+    @Override
+    public void setCreationDate(Date creation) {
+        this.creation = creation;
     }
 
     @Override

@@ -6,8 +6,10 @@ import java.util.Date;
 
 public interface Request {
     long getID();
-    String getAuthor();
+    User getAuthor();
+    void setAuthor(User author);
     Date getCreationDate();
+    void setCreationDate(Date creation);
     boolean approved();
     boolean rejected();
     void approve();
