@@ -3,17 +3,15 @@ package it.unicam.cs.ids.TerraViva.Models.Requests;
 
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.AuthorizationEntity;
 import it.unicam.cs.ids.TerraViva.Models.User;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "AUTH_REQUEST")
 public class AuthorizationRequest extends MultiStatusRequest {
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "content_id", referencedColumnName = "ID")
+    @JoinColumn(name = "content_id")
     private AuthorizationEntity content;
 
     public AuthorizationRequest(){}

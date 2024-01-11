@@ -12,9 +12,16 @@ public abstract class AuthorizationEntity implements AuthorizationSubject {
 
     private boolean authorized;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_username", referencedColumnName = "username")
+    @ManyToOne
+    @JoinColumn(name = "author_username")
     private User author;
+
+    public AuthorizationEntity(){}
+
+    public AuthorizationEntity(User author) {
+        this.author = author;
+        this.authorized = false;
+    }
 
     public long getID(){
         return ID;

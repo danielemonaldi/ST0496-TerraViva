@@ -12,6 +12,7 @@ public interface Request {
     void setCreationDate(Date creation);
     boolean approved();
     boolean rejected();
+    RequestStatus getStatus();
     void approve();
     void reject();
 }

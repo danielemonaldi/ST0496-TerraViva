@@ -3,10 +3,12 @@ package it.unicam.cs.ids.TerraViva.Models.Requests;
 import it.unicam.cs.ids.TerraViva.Models.Role;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "PROM_REQUEST")
 public class PromotionRequest extends MultiStatusRequest {
     private Role requestedRole;
     private String motivation;

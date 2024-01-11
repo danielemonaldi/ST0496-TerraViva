@@ -14,17 +14,16 @@ public class POI extends AuthorizationEntity {
     private double longitude;
     private Date creation;
     private Date expire;
-    private User author;
 
     public POI(){}
 
     public POI(String name, double latitude, double longitude, Date creation, @Nullable Date expire, User author) {
+        super(author);
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.creation = creation;
         this.expire = expire;
-        this.author = author;
     }
 
     public String getName() {
@@ -65,14 +64,4 @@ public class POI extends AuthorizationEntity {
 
     public void setExpire(Date expire) {
         this.expire = expire;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-}
+    }}

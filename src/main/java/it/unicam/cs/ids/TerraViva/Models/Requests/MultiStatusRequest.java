@@ -12,8 +12,8 @@ public abstract class MultiStatusRequest implements Request {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private long ID;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_username", referencedColumnName = "username")
+    @ManyToOne
+    @JoinColumn(name = "author_username")
     private User author;
 
     private Date creation;
@@ -59,6 +59,11 @@ public abstract class MultiStatusRequest implements Request {
     @Override
     public boolean rejected() {
         return status == RequestStatus.REJECTED;
+    }
+
+    @Override
+    public RequestStatus getStatus() {
+        return status;
     }
 
     @Override
