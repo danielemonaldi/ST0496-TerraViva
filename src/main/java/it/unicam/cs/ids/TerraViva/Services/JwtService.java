@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.TerraViva.Security.Authentication;
+package it.unicam.cs.ids.TerraViva.Services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

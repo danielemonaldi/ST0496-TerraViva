@@ -27,7 +27,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeRequests()
-                .requestMatchers("/register", "/authenticate").permitAll()
+                .requestMatchers("/register", "/login").permitAll()
                 .requestMatchers("/creation/POI").hasAnyAuthority(
                         Role.CONTRIBUTOR.getAuthority(),
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
