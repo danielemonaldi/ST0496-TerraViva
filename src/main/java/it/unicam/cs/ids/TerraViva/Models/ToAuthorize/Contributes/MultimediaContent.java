@@ -1,7 +1,11 @@
-package it.unicam.cs.ids.TerraViva.Models.Contributes;
+package it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes;
 
 import it.unicam.cs.ids.TerraViva.Models.User;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "MultimediaContent")
 public class MultimediaContent extends Content<String> {
     private String caption;
 
@@ -9,6 +13,8 @@ public class MultimediaContent extends Content<String> {
         super(author, data);
         this.caption = caption;
     }
+
+    public MultimediaContent() {}
 
     public String getCaption() {
         return caption;

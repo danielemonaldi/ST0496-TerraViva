@@ -1,8 +1,7 @@
-package it.unicam.cs.ids.TerraViva.Models.Contributes;
+package it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes;
 
 import it.unicam.cs.ids.TerraViva.Models.User;
 
 public interface Contribute<T> {
-    public User getAuthor();
     public T getData();
 }
