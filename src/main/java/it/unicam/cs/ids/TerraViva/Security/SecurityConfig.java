@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.TerraViva.Security;
 
+import it.unicam.cs.ids.TerraViva.Models.Role;
 import it.unicam.cs.ids.TerraViva.Security.Authentication.AuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,15 +25,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeRequests()
-                    .requestMatchers("/register", "/authenticate").permitAll()
-                    .anyRequest().authenticated()
-                .and()
-                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+        http.csrf(AbstractHttpConfigurer::disable)
+            .authorizeRequests()
+                .requestMatchers("/register", "/login").permitAll()
+                .requestMatchers("/creation/POI").hasAnyAuthority(
+                        Role.CONTRIBUTOR.getAuthority(),
+                        Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
+                        Role.ENTERTAINER.getAuthority(),
+                        Role.AUTHORIZED_ENTERTAINER.getAuthority())
+                .anyRequest().authenticated()
+            .and()
+            .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
