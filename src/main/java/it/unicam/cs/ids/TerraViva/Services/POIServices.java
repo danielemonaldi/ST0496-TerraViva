@@ -1,6 +1,5 @@
-package it.unicam.cs.ids.TerraViva.Models.Services;
+package it.unicam.cs.ids.TerraViva.Services;
 
-import it.unicam.cs.ids.TerraViva.Models.Requests.MultiStatusRequest;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
 import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
 import it.unicam.cs.ids.TerraViva.Repository.AuthorizationRepository;

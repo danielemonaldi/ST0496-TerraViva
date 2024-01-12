@@ -1,8 +1,9 @@
-package it.unicam.cs.ids.TerraViva.Models.Services;
+package it.unicam.cs.ids.TerraViva.Services;
 
 import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
 import it.unicam.cs.ids.TerraViva.Models.Requests.RequestStatus;
 import it.unicam.cs.ids.TerraViva.Repository.RequestRepository;
+import it.unicam.cs.ids.TerraViva.Services.AuthRequestServices;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
