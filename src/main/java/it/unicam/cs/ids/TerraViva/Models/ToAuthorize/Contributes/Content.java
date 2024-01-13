@@ -2,11 +2,15 @@ package it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes;
 
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.AuthorizationEntity;
 import it.unicam.cs.ids.TerraViva.Models.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 public abstract class Content extends AuthorizationEntity implements Contribute {
     private String data;
+
+    @ManyToOne
+    @JoinColumn(name = "reference_id")
+    private AuthorizationEntity refersTo;
 
     public Content(User author, String data) {
         super(author);
@@ -23,5 +27,15 @@ public abstract class Content extends AuthorizationEntity implements Contribute 
     @Override
     public void setData(String data) {
         this.data = data;
+    }
+
+    @Override
+    public AuthorizationEntity getRefersTo() {
+        return refersTo;
+    }
+
+    @Override
+    public void setRefersTo(AuthorizationEntity refersTo) {
+        this.refersTo = refersTo;
     }
 }
