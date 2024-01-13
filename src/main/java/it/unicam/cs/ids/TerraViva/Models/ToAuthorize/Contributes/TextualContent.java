@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TextualContent")
-public class TextualContent extends Content<String>{
+public class TextualContent extends Content {
     public TextualContent(User author, String data) {
         super(author, data);
     }

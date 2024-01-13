@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "MultimediaContent")
-public class MultimediaContent extends Content<String> {
+public class MultimediaContent extends Content {
     private String caption;
 
     public MultimediaContent(User author, String data, String caption) {

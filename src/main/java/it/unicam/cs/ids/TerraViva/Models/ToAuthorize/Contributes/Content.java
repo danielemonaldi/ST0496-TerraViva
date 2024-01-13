@@ -5,10 +5,10 @@ import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-public abstract class Content<T> extends AuthorizationEntity implements Contribute<T> {
-    private T data;
+public abstract class Content extends AuthorizationEntity implements Contribute {
+    private String data;
 
-    public Content(User author, T data) {
+    public Content(User author, String data) {
         super(author);
         this.data = data;
     }
@@ -16,11 +16,12 @@ public abstract class Content<T> extends AuthorizationEntity implements Contribu
     public Content() {}
 
     @Override
-    public T getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(T data) {
+    @Override
+    public void setData(String data) {
         this.data = data;
     }
 }
