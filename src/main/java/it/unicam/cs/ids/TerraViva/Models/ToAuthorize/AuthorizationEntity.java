@@ -24,7 +24,7 @@ public abstract class AuthorizationEntity implements AuthorizationSubject {
     @Enumerated(EnumType.STRING)
     private EntityType type;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_username")
     private User author;
 

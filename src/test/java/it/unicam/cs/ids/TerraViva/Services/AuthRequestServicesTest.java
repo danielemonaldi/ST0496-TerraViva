@@ -2,6 +2,9 @@ package it.unicam.cs.ids.TerraViva.Services;
 
 import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
 import it.unicam.cs.ids.TerraViva.Models.Requests.RequestStatus;
+import it.unicam.cs.ids.TerraViva.Models.Role;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
+import it.unicam.cs.ids.TerraViva.Models.User;
 import it.unicam.cs.ids.TerraViva.Repository.RequestRepository;
 import it.unicam.cs.ids.TerraViva.Services.AuthRequestServices;
 import jakarta.transaction.Transactional;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,20 +40,28 @@ public class AuthRequestServicesTest {
     @DirtiesContext
     @Transactional
     public void testSubmit() {
-        AuthorizationRequest request = new AuthorizationRequest();
+        User author = new User("testUsername", "123", "test@gmail.com", Role.AUTHORIZED_TOURIST);
+        POI content = new POI("POI Reference", 1.0, 2.0, new Date(), null, author);
+
+        AuthorizationRequest request = new AuthorizationRequest(author, content, new Date(System.currentTimeMillis()));
         authRequestServices.submit(request);
 
         Optional<AuthorizationRequest> savedRequest = authRequestRepository.findById(request.getID());
 
         assertTrue(savedRequest.isPresent());
         assertEquals(RequestStatus.PENDING, savedRequest.get().getStatus());
+        assertEquals(content, savedRequest.get().getContent());
+        assertEquals(author, savedRequest.get().getAuthor());
     }
 
     @Test
     @DirtiesContext
     @Transactional
     public void testAccept() throws Exception {
-        AuthorizationRequest request = new AuthorizationRequest();
+        User author = new User("testUsername", "123", "test@gmail.com", Role.AUTHORIZED_TOURIST);
+        POI content = new POI("POI Reference", 1.0, 2.0, new Date(), null, author);
+
+        AuthorizationRequest request = new AuthorizationRequest(author, content, new Date(System.currentTimeMillis()));
         authRequestRepository.save(request);
 
         long requestId = request.getID();
@@ -65,8 +77,10 @@ public class AuthRequestServicesTest {
     @DirtiesContext
     @Transactional
     public void testReject() throws Exception {
-        AuthorizationRequest request = new AuthorizationRequest();
-        authRequestRepository.save(request);
+        User author = new User("testUsername", "123", "test@gmail.com", Role.AUTHORIZED_TOURIST);
+        POI content = new POI("POI Reference", 1.0, 2.0, new Date(), null, author);
+
+        AuthorizationRequest request = new AuthorizationRequest(author, content, new Date(System.currentTimeMillis()));        authRequestRepository.save(request);
 
         long requestId = request.getID();
         authRequestServices.reject(requestId);
