@@ -16,7 +16,7 @@ public class TextualContentServices {
     @Autowired
     private AuthorizationRepository<TextualContent> contentRepository;
 
-    public void publish(TextualContent content) throws Exception {
+    public void publish(TextualContent content) {
         Date creation = new Date(System.currentTimeMillis());
         AuthorizationRequest request = new AuthorizationRequest(content.getAuthor(), content, creation);
         contentRepository.save(content);

@@ -6,7 +6,6 @@ import it.unicam.cs.ids.TerraViva.Models.Role;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import it.unicam.cs.ids.TerraViva.Repository.RequestRepository;
-import it.unicam.cs.ids.TerraViva.Services.AuthRequestServices;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
