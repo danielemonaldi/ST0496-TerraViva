@@ -8,12 +8,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public abstract class Content extends AuthorizationEntity implements Contribute {
+public abstract class Content extends AuthorizationEntity {
     private String data;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "reference_id")
-    private AuthorizationEntity refersTo;
 
     public Content(User author, String data) {
         super(author);
@@ -22,23 +18,11 @@ public abstract class Content extends AuthorizationEntity implements Contribute 
 
     public Content() {}
 
-    @Override
     public String getData() {
         return data;
     }
 
-    @Override
     public void setData(String data) {
         this.data = data;
-    }
-
-    @Override
-    public AuthorizationEntity getRefersTo() {
-        return refersTo;
-    }
-
-    @Override
-    public void setRefersTo(AuthorizationEntity refersTo) {
-        this.refersTo = refersTo;
     }
 }
