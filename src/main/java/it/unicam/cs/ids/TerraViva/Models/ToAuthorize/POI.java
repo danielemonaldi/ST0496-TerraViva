@@ -5,6 +5,7 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "POI")
@@ -14,6 +15,9 @@ public class POI extends AuthorizationEntity {
     private double longitude;
     private Date creation;
     private Date expire;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Contest> contests;
 
     public POI(){}
 
@@ -64,4 +68,13 @@ public class POI extends AuthorizationEntity {
 
     public void setExpire(Date expire) {
         this.expire = expire;
-    }}
+    }
+
+    public List<Contest> getContests() {
+        return contests;
+    }
+
+    public void setContests(List<Contest> contests) {
+        this.contests = contests;
+    }
+}
