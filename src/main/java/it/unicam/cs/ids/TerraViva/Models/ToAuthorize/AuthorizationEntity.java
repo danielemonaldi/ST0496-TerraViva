@@ -13,7 +13,8 @@ import jakarta.persistence.*;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = POI.class, name = "POI"),
         @JsonSubTypes.Type(value = TextualContent.class, name = "TEXTUAL_CONTENT"),
-        @JsonSubTypes.Type(value = MultimediaContent.class, name = "MULTIMEDIA_CONTENT")})
+        @JsonSubTypes.Type(value = MultimediaContent.class, name = "MULTIMEDIA_CONTENT"),
+        @JsonSubTypes.Type(value = Contest.class, name = "CONTEST")})
 public abstract class AuthorizationEntity implements AuthorizationSubject {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -24,7 +25,7 @@ public abstract class AuthorizationEntity implements AuthorizationSubject {
     @Enumerated(EnumType.STRING)
     private EntityType type;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "author_username")
     private User author;
 

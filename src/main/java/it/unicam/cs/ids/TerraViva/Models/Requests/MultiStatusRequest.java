@@ -12,7 +12,7 @@ public abstract class MultiStatusRequest implements Request {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private long ID;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "author_username")
     private User author;
 
