@@ -1,29 +1,22 @@
-package it.unicam.cs.ids.TerraViva.Models.ToAuthorize;
+package it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
 
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.AuthorizationEntity;
 import it.unicam.cs.ids.TerraViva.Models.User;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
-import java.util.Date;
-
 @Entity
-@Table(name = "POI")
-public class POI extends AuthorizationEntity {
+public abstract class POI extends AuthorizationEntity {
     private String name;
+    private String description;
     private double latitude;
     private double longitude;
-    private Date creation;
-    private Date expire;
 
     public POI(){}
 
-    public POI(String name, double latitude, double longitude, Date creation, @Nullable Date expire, User author) {
+    public POI(double latitude, double longitude, User author) {
         super(author);
-        this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.creation = creation;
-        this.expire = expire;
     }
 
     public String getName() {
@@ -32,6 +25,14 @@ public class POI extends AuthorizationEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public double getLatitude() {
@@ -49,19 +50,4 @@ public class POI extends AuthorizationEntity {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
-
-    public Date getCreation() {
-        return creation;
-    }
-
-    public void setCreation(Date creation) {
-        this.creation = creation;
-    }
-
-    public Date getExpire() {
-        return expire;
-    }
-
-    public void setExpire(Date expire) {
-        this.expire = expire;
-    }}
+}

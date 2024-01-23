@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.MultimediaContent;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.TextualContent;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.*;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.*;
 
@@ -11,7 +12,10 @@ import jakarta.persistence.*;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = POI.class, name = "POI"),
+        @JsonSubTypes.Type(value = CommercialPOI.class, name = "COMMERCIAL_POI"),
+        @JsonSubTypes.Type(value = CulturalPOI.class, name = "CULTURAL_POI"),
+        @JsonSubTypes.Type(value = EventPOI.class, name = "EVENT_POI"),
+        @JsonSubTypes.Type(value = RecreationalPOI.class, name = "RECREATIONAL_POI"),
         @JsonSubTypes.Type(value = TextualContent.class, name = "TEXTUAL_CONTENT"),
         @JsonSubTypes.Type(value = MultimediaContent.class, name = "MULTIMEDIA_CONTENT")})
 public abstract class AuthorizationEntity implements AuthorizationSubject {
@@ -24,8 +28,7 @@ public abstract class AuthorizationEntity implements AuthorizationSubject {
     @Enumerated(EnumType.STRING)
     private EntityType type;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_username")
+    @ManyToOne(optional = false)
     private User author;
 
     public AuthorizationEntity(){}
