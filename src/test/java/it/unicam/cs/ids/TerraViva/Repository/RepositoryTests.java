@@ -5,7 +5,8 @@ import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
 import it.unicam.cs.ids.TerraViva.Models.Requests.PromotionRequest;
 import it.unicam.cs.ids.TerraViva.Models.Requests.RequestStatus;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.AuthorizationEntity;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.EventPOI;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.POI;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,10 @@ public class RepositoryTests {
         User user = new User("testUser", "password", "test@example.com", Role.AUTHORIZED_TOURIST);
         user = usersRepository.save(user);
 
-        AuthorizationEntity poi = new POI("Test POI", 0.0, 0.0, new Date(), null, user);
+        EventPOI poi = new EventPOI(0.0, 0.0, user);
+        poi.setName("Test POI");
+        poi.setCreation(new Date());
+        poi.setExpire(new Date());
         AuthorizationEntity savedPoi = authorizationRepository.save(poi);
 
         Optional<AuthorizationEntity> retrievedPoi = authorizationRepository.findById(savedPoi.getID());
@@ -56,7 +60,10 @@ public class RepositoryTests {
         User user = new User("testUser", "password", "test@example.com", Role.AUTHORIZED_TOURIST);
         user = usersRepository.save(user);
 
-        AuthorizationEntity poi = new POI("Test POI", 0.0, 0.0, new Date(), null, user);
+        EventPOI poi = new EventPOI(0.0, 0.0, user);
+        poi.setName("test");
+        poi.setCreation(new Date());
+        poi.setExpire(new Date());
         poi = authorizationRepository.save(poi);
 
         AuthorizationRequest authRequest = new AuthorizationRequest(user, poi, new Date());

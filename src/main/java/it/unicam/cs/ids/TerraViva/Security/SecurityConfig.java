@@ -32,7 +32,8 @@ public class SecurityConfig {
                         Role.CONTRIBUTOR.getAuthority(),
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
                         Role.ENTERTAINER.getAuthority(),
-                        Role.AUTHORIZED_ENTERTAINER.getAuthority())
+                        Role.AUTHORIZED_ENTERTAINER.getAuthority(),
+                Role.AUTHORIZED_TOURIST.getAuthority())
                 .anyRequest().authenticated()
             .and()
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

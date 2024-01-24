@@ -1,11 +1,13 @@
 package it.unicam.cs.ids.TerraViva.Services;
 
 import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
+import it.unicam.cs.ids.TerraViva.Models.Requests.MultiStatusRequest;
 import it.unicam.cs.ids.TerraViva.Models.Requests.RequestStatus;
 import it.unicam.cs.ids.TerraViva.Models.Role;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.EventPOI;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import it.unicam.cs.ids.TerraViva.Repository.RequestRepository;
+import it.unicam.cs.ids.TerraViva.Repository.UsersRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class AuthRequestServicesTest {
+    @Autowired
+    private UsersRepository userRepo;
 
     @Autowired
-    private AuthRequestServices authRequestServices;
+    private RequestServices authRequestServices;
 
     @Autowired
     private RequestRepository<AuthorizationRequest> authRequestRepository;
@@ -31,7 +35,7 @@ public class AuthRequestServicesTest {
     @DirtiesContext
     @Transactional
     public void testPendingRequests() {
-        List<AuthorizationRequest> pendingRequests = authRequestServices.pendingRequests();
+        List<MultiStatusRequest> pendingRequests = authRequestServices.getRequests();
         assertNotNull(pendingRequests);
     }
 
@@ -40,7 +44,11 @@ public class AuthRequestServicesTest {
     @Transactional
     public void testSubmit() {
         User author = new User("testUsername", "123", "test@gmail.com", Role.AUTHORIZED_TOURIST);
-        POI content = new POI("POI Reference", 1.0, 2.0, new Date(), null, author);
+        userRepo.save(author);
+        EventPOI content = new EventPOI(0.0, 0.0, author);
+        content.setName("test");
+        content.setCreation(new Date());
+        content.setExpire(new Date());
 
         AuthorizationRequest request = new AuthorizationRequest(author, content, new Date(System.currentTimeMillis()));
         authRequestServices.submit(request);
@@ -58,15 +66,16 @@ public class AuthRequestServicesTest {
     @Transactional
     public void testAccept() throws Exception {
         User author = new User("testUsername", "123", "test@gmail.com", Role.AUTHORIZED_TOURIST);
-        POI content = new POI("POI Reference", 1.0, 2.0, new Date(), null, author);
+        EventPOI content = new EventPOI(0.0, 0.0, author);
+        content.setName("test");
+        content.setCreation(new Date());
+        content.setExpire(new Date());
 
         AuthorizationRequest request = new AuthorizationRequest(author, content, new Date(System.currentTimeMillis()));
         authRequestRepository.save(request);
+        authRequestServices.accept(request);
 
-        long requestId = request.getID();
-        authRequestServices.accept(requestId);
-
-        Optional<AuthorizationRequest> acceptedRequest = authRequestRepository.findById(requestId);
+        Optional<AuthorizationRequest> acceptedRequest = authRequestRepository.findById(request.getID());
 
         assertTrue(acceptedRequest.isPresent());
         assertEquals(RequestStatus.APPROVED, acceptedRequest.get().getStatus());
@@ -77,14 +86,16 @@ public class AuthRequestServicesTest {
     @Transactional
     public void testReject() throws Exception {
         User author = new User("testUsername", "123", "test@gmail.com", Role.AUTHORIZED_TOURIST);
-        POI content = new POI("POI Reference", 1.0, 2.0, new Date(), null, author);
+        EventPOI content = new EventPOI(0.0, 0.0, author);
+        content.setName("test");
+        content.setCreation(new Date());
+        content.setExpire(new Date());
 
         AuthorizationRequest request = new AuthorizationRequest(author, content, new Date(System.currentTimeMillis()));        authRequestRepository.save(request);
 
-        long requestId = request.getID();
-        authRequestServices.reject(requestId);
+        authRequestServices.reject(request);
 
-        Optional<AuthorizationRequest> rejectedRequest = authRequestRepository.findById(requestId);
+        Optional<AuthorizationRequest> rejectedRequest = authRequestRepository.findById(request.getID());
 
         assertTrue(rejectedRequest.isPresent());
         assertEquals(RequestStatus.REJECTED, rejectedRequest.get().getStatus());

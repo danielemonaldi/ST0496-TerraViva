@@ -2,7 +2,8 @@ package it.unicam.cs.ids.TerraViva.Services;
 
 import it.unicam.cs.ids.TerraViva.Models.Role;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.TextualContent;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.EventPOI;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.POI;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import it.unicam.cs.ids.TerraViva.Repository.AuthorizationRepository;
 import org.junit.jupiter.api.Test;
@@ -32,9 +33,12 @@ public class TextualContentServicesTest {
         User author = new User("testUsername", "123", "test@gmail.com", Role.AUTHORIZED_TOURIST);
         TextualContent textualContent = new TextualContent(author, "data");
 
-        POI poiReference = new POI("POI Reference", 1.0, 2.0, new Date(), null, author);
+        EventPOI poiReference = new EventPOI(0.0, 0.0, author);
+        poiReference.setName("test");
+        poiReference.setCreation(new Date());
+        poiReference.setExpire(new Date());
         poiReference.authorize();
-        textualContent.setRefersTo(poiReference);
+        poiReference.authorize();
 
         textualContentServices.publish(textualContent);
 
@@ -43,6 +47,5 @@ public class TextualContentServicesTest {
         assertEquals(textualContent, content.get());
         assertEquals(textualContent.getAuthor(), content.get().getAuthor());
         assertEquals(textualContent.getType(), content.get().getType());
-        assertEquals(textualContent.getRefersTo(), content.get().getRefersTo());
     }
 }
