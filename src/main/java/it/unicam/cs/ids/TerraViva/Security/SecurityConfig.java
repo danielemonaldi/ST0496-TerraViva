@@ -27,12 +27,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeRequests()
-                .requestMatchers("/register", "/authenticate").permitAll()
+                .requestMatchers("/register", "/login").permitAll()
                 .requestMatchers("/creation/POI").hasAnyAuthority(
                         Role.CONTRIBUTOR.getAuthority(),
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
                         Role.ENTERTAINER.getAuthority(),
-                        Role.AUTHORIZED_ENTERTAINER.getAuthority())
+                        Role.AUTHORIZED_ENTERTAINER.getAuthority(),
+                Role.AUTHORIZED_TOURIST.getAuthority())
                 .anyRequest().authenticated()
             .and()
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

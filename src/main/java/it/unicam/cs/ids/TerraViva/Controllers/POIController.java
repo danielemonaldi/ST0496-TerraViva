@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.TerraViva.Controllers;
 
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
-import it.unicam.cs.ids.TerraViva.Models.Services.POIServices;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.POI;
+import it.unicam.cs.ids.TerraViva.Services.POIServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class POIController {
     @PostMapping("/creation/POI")
     public ResponseEntity<String> create(@RequestBody POI poi){
         try {
-            poiServices.publish(poi);
+            poiServices.confirmNew(poi);
             return ResponseEntity.status(HttpStatus.CREATED).body("POI created successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating POI: " + e.getMessage());
