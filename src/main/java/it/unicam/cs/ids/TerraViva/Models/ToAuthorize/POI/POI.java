@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
 
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.AuthorizationEntity;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contest;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.Content;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.*;
@@ -16,6 +17,9 @@ public abstract class POI extends AuthorizationEntity {
 
     @OneToMany(cascade = CascadeType.REMOVE)
     private List<Content> contents;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Contest> contests;
 
     public POI(){}
 
@@ -63,5 +67,13 @@ public abstract class POI extends AuthorizationEntity {
 
     public void setContents(List<Content> contents) {
         this.contents = contents;
+    }
+
+    public List<Contest> getContests() {
+        return contests;
+    }
+
+    public void setContests(List<Contest> contests) {
+        this.contests = contests;
     }
 }

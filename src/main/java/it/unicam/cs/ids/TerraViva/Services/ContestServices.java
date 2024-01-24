@@ -2,7 +2,7 @@ package it.unicam.cs.ids.TerraViva.Services;
 
 import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contest;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.POI;
 import it.unicam.cs.ids.TerraViva.Repository.AuthorizationRepository;
 import it.unicam.cs.ids.TerraViva.Repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class ContestServices {
     private AuthorizationRepository<Contest> contestRepository;
 
     @Autowired
-    private AuthRequestServices requestServices;
+    private RequestServices requestServices;
 
     @Autowired
     private UsersRepository usersRepository;
