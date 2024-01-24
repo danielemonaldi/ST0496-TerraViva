@@ -2,7 +2,6 @@ package it.unicam.cs.ids.TerraViva.Controllers;
 
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.MultimediaContent;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.TextualContent;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
 import it.unicam.cs.ids.TerraViva.Services.MultimediaContentServices;
 import it.unicam.cs.ids.TerraViva.Services.TextualContentServices;
 import org.springframework.beans.factory.annotation.Autowired;

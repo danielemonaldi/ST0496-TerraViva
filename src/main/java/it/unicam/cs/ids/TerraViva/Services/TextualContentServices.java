@@ -11,7 +11,7 @@ import java.util.Date;
 @Service
 public class TextualContentServices {
     @Autowired
-    private AuthRequestServices requestServices;
+    private RequestServices requestServices;
 
     @Autowired
     private AuthorizationRepository<TextualContent> contentRepository;

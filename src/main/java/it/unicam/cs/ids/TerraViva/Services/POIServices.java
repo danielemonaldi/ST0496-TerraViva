@@ -20,7 +20,7 @@ public class POIServices {
     private UsersRepository usersRepository;
 
     @Autowired
-    private AuthRequestServices requestServices;
+    private RequestServices requestServices;
 
     public CulturalPOI createCulturalPOI(double latitude, double longitude, User author) {
         return new CulturalPOI(latitude, longitude, author);
@@ -47,9 +47,15 @@ public class POIServices {
     }
 
     public void confirmNew(POI poi) {
-        Date creation = new Date(System.currentTimeMillis());
-        AuthorizationRequest request = new AuthorizationRequest(poi.getAuthor(), poi, creation);
+        // if(!poi.getAuthor().getAuthorities().contains(Role.AUTHORIZED_ENTERTAINER) &&
+        //        !poi.getAuthor().getAuthorities().contains(Role.AUTHORIZED_CONTRIBUTOR) &&
+        //        !poi.authorized()) {
+            Date creation = new Date(System.currentTimeMillis());
+            AuthorizationRequest request = new AuthorizationRequest(poi.getAuthor(), poi, creation);
+            requestServices.submit(request);
+        // } else {
+        //    poi.authorize();
+        // }
         poiRepository.save(poi);
-        requestServices.submit(request);
     }
 }
