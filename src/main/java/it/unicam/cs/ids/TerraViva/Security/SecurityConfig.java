@@ -28,6 +28,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeRequests()
                 .requestMatchers("/register", "/login").permitAll()
+                .requestMatchers("/creation/contest", "/deletion/contest").hasAnyAuthority(Role.ENTERTAINER.getAuthority())
                 .requestMatchers("/creation/POI").hasAnyAuthority(
                         Role.CONTRIBUTOR.getAuthority(),
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),

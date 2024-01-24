@@ -3,7 +3,6 @@ package it.unicam.cs.ids.TerraViva.Models.ToAuthorize;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.Content;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -23,7 +22,6 @@ public class Contest extends AuthorizationEntity {
     private Date expire;
 
     @OneToMany
-    @JoinColumn(name = "contest_id")
     private List<Content> contents;
 
     public Contest(){}

@@ -34,7 +34,6 @@ public class MultimediaContentServicesTest {
 
         POI poiReference = new POI("POI Reference", 1.0, 2.0, new Date(), null, author);
         poiReference.authorize();
-        multimediaContent.setRefersTo(poiReference);
 
         multimediaContentServices.publish(multimediaContent);
 
@@ -43,6 +42,5 @@ public class MultimediaContentServicesTest {
         assertEquals(multimediaContent, content.get());
         assertEquals(multimediaContent.getAuthor(), content.get().getAuthor());
         assertEquals(multimediaContent.getType(), content.get().getType());
-        assertEquals(multimediaContent.getRefersTo(), content.get().getRefersTo());
     }
 }

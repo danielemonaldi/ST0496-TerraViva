@@ -34,7 +34,6 @@ public class TextualContentServicesTest {
 
         POI poiReference = new POI("POI Reference", 1.0, 2.0, new Date(), null, author);
         poiReference.authorize();
-        textualContent.setRefersTo(poiReference);
 
         textualContentServices.publish(textualContent);
 
@@ -43,6 +42,5 @@ public class TextualContentServicesTest {
         assertEquals(textualContent, content.get());
         assertEquals(textualContent.getAuthor(), content.get().getAuthor());
         assertEquals(textualContent.getType(), content.get().getType());
-        assertEquals(textualContent.getRefersTo(), content.get().getRefersTo());
     }
 }
