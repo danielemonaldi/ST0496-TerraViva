@@ -13,7 +13,8 @@ public abstract class Content extends AuthorizationEntity {
         this.data = data;
     }
 
-    public Content() {}
+    public Content() {
+    }
 
     public String getData() {
         return data;
