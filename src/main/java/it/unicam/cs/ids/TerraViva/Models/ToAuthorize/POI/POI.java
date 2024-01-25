@@ -18,7 +18,7 @@ public abstract class POI extends AuthorizationEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Content> contents;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contest> contests;
 
     public POI(){}
@@ -77,12 +77,21 @@ public abstract class POI extends AuthorizationEntity {
         this.contests = contests;
     }
 
-    public void addContent(Content content) {
+    public void addContent(Content content) throws Exception {
         this.contents.add(content);
         content.setReference(this);
     }
 
     public boolean removeContent(Content content) {
         return this.contents.remove(content);
+    }
+
+    public void addContest(Contest contest) throws Exception {
+        this.contests.add(contest);
+        contest.setReference(this);
+    }
+
+    public boolean removeContest(Contest contest) {
+        return this.contests.remove(contest);
     }
 }

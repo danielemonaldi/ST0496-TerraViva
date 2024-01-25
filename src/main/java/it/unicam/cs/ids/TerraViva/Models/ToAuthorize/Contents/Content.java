@@ -1,6 +1,8 @@
 package it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents;
 
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.AuthorizationEntity;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contest;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.POI;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -31,13 +33,11 @@ public abstract class Content extends AuthorizationEntity {
         return reference;
     }
 
-    public void setReference(AuthorizationEntity reference) {
-        /*
+    public void setReference(AuthorizationEntity reference) throws Exception {
         if(reference instanceof POI || reference instanceof Contest) {
-
+            this.reference = reference;
         } else {
-
-        }*/
-        this.reference = reference;
+            throw new Exception("Invalid type for Content reference.");
+        }
     }
 }

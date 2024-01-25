@@ -4,6 +4,7 @@ import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.Content;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.MultimediaContent;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.TextualContent;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contest;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.POI;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import it.unicam.cs.ids.TerraViva.Repository.AuthorizationRepository;
@@ -19,6 +20,9 @@ public class ContentServices {
 
     @Autowired
     private POIServices poiServices;
+
+    @Autowired
+    private ContestServices contestServices;
 
     @Autowired
     private AuthorizationRepository<Content> contentRepository;
@@ -41,11 +45,19 @@ public class ContentServices {
 
     public void saveForLater(Content content) {}
 
-    public void confirmNew(Content content, POI reference) {
+    public void confirmNew(Content content, POI reference) throws Exception {
         Date creation = new Date(System.currentTimeMillis());
         AuthorizationRequest request = new AuthorizationRequest(content.getAuthor(), content, creation);
         requestServices.submit(request);
         reference.addContent(content);
         poiServices.save(reference);
+    }
+
+    public void confirmNew(Content content, Contest reference) throws Exception {
+        Date creation = new Date(System.currentTimeMillis());
+        AuthorizationRequest request = new AuthorizationRequest(content.getAuthor(), content, creation);
+        requestServices.submit(request);
+        reference.addContent(content);
+        contestServices.save(reference);
     }
 }
