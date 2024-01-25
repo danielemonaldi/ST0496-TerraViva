@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.TerraViva.Models.ToAuthorize;
 
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.Content;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.Content;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
