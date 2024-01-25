@@ -23,7 +23,7 @@ public class AuthenticationServices {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtService jwtService;
+    private JwtServices jwtService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

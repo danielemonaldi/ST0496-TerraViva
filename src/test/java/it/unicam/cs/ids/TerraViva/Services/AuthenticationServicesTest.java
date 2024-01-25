@@ -19,7 +19,7 @@ class AuthenticationServicesTest {
     private UsersRepository usersRepository;
 
     @Autowired
-    private JwtService jwtService;
+    private JwtServices jwtService;
 
     @Autowired
     private AuthenticationServices authenticationServices;
