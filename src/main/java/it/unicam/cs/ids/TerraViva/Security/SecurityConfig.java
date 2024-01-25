@@ -28,13 +28,15 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeRequests()
                 .requestMatchers("/register", "/login").permitAll()
-                .requestMatchers("/creation/contest", "/deletion/contest").hasAnyAuthority(Role.ENTERTAINER.getAuthority())
+                .requestMatchers("/creation/contest", "/deletion/contest").hasAnyAuthority(
+                        Role.CONTRIBUTOR.getAuthority(),
+                        Role.AUTHORIZED_CONTRIBUTOR.getAuthority())
+                .requestMatchers("/creation/poi-content",  "/creation/contest-content").hasAuthority(Role.AUTHORIZED_TOURIST.getAuthority())
                 .requestMatchers("/creation/POI").hasAnyAuthority(
                         Role.CONTRIBUTOR.getAuthority(),
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
                         Role.ENTERTAINER.getAuthority(),
-                        Role.AUTHORIZED_ENTERTAINER.getAuthority(),
-                Role.AUTHORIZED_TOURIST.getAuthority())
+                        Role.AUTHORIZED_ENTERTAINER.getAuthority())
                 .anyRequest().authenticated()
             .and()
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
