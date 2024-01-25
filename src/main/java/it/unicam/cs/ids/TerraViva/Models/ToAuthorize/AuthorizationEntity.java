@@ -2,8 +2,8 @@ package it.unicam.cs.ids.TerraViva.Models.ToAuthorize;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.MultimediaContent;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.TextualContent;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.MultimediaContent;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.TextualContent;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.*;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.*;

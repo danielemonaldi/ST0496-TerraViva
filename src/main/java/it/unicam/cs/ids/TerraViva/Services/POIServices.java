@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class POIServices {
@@ -46,6 +47,10 @@ public class POIServices {
         return poiRepository.findAll();
     }
 
+    public Optional<POI> getPOI(long ID) {
+        return poiRepository.findById(ID);
+    }
+
     public void confirmNew(POI poi) {
         // if(!poi.getAuthor().getAuthorities().contains(Role.AUTHORIZED_ENTERTAINER) &&
         //        !poi.getAuthor().getAuthorities().contains(Role.AUTHORIZED_CONTRIBUTOR) &&
@@ -56,6 +61,10 @@ public class POIServices {
         // } else {
         //    poi.authorize();
         // }
+        poiRepository.save(poi);
+    }
+
+    public void save(POI poi) {
         poiRepository.save(poi);
     }
 }

@@ -1,9 +1,8 @@
 package it.unicam.cs.ids.TerraViva.Services;
 
 import it.unicam.cs.ids.TerraViva.Models.Role;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.MultimediaContent;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.MultimediaContent;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.EventPOI;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.POI;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import it.unicam.cs.ids.TerraViva.Repository.AuthorizationRepository;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MultimediaContentServicesTest {
 
     @Autowired
-    private MultimediaContentServices multimediaContentServices;
+    private ContentServices multimediaContentServices;
 
     @Autowired
     private AuthorizationRepository<MultimediaContent> multimediaContentRepository;
@@ -31,7 +30,7 @@ public class MultimediaContentServicesTest {
     @DirtiesContext
     public void testPublish() throws Exception {
         User author = new User("testUsername", "123", "test@gmail.com", Role.AUTHORIZED_TOURIST);
-        MultimediaContent multimediaContent = new MultimediaContent(author, "data", "caption");
+        MultimediaContent multimediaContent = new MultimediaContent(author, "data");
 
         EventPOI poiReference = new EventPOI(0.0, 0.0, author);
         poiReference.setName("test");
@@ -39,7 +38,7 @@ public class MultimediaContentServicesTest {
         poiReference.setExpire(new Date());
         poiReference.authorize();
 
-        multimediaContentServices.publish(multimediaContent);
+        multimediaContentServices.confirmNew(multimediaContent, poiReference);
 
         Optional<MultimediaContent> content = multimediaContentRepository.findById(multimediaContent.getID());
         assertTrue(content.isPresent());

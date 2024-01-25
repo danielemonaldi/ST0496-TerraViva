@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
 
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.AuthorizationEntity;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.Content;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.Content;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.*;
 
@@ -14,7 +14,7 @@ public abstract class POI extends AuthorizationEntity {
     private double latitude;
     private double longitude;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Content> contents;
 
     public POI(){}
@@ -63,5 +63,14 @@ public abstract class POI extends AuthorizationEntity {
 
     public void setContents(List<Content> contents) {
         this.contents = contents;
+    }
+
+    public void addContent(Content content) {
+        this.contents.add(content);
+        content.setReference(this);
+    }
+
+    public boolean removeContent(Content content) {
+        return this.contents.remove(content);
     }
 }
