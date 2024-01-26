@@ -29,7 +29,7 @@ public class ContentController {
     ContestServices contestServices;
 
     @PostMapping("/creation/poi-content")
-    public ResponseEntity<String> createPoiContent(@RequestBody Content content, @RequestParam long reference){
+    public ResponseEntity<String> createPoiContent(@RequestBody Content content, @RequestParam long reference) {
         try {
             Optional<POI> poi = poiServices.getPOI(reference);
             if(poi.isPresent()) {
@@ -45,7 +45,7 @@ public class ContentController {
     }
 
     @PostMapping("/creation/contest-content")
-    public ResponseEntity<String> createContestContent(@RequestBody Content content, @RequestParam long reference){
+    public ResponseEntity<String> createContestContent(@RequestBody Content content, @RequestParam long reference) {
         try {
             Optional<Contest> contest = contestServices.getContest(reference);
             if(contest.isPresent()) {
@@ -57,6 +57,16 @@ public class ContentController {
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error uploading content: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/publish")
+    public ResponseEntity<String> createContestContent(@RequestBody Content content, @RequestParam String social) {
+        try {
+            contentServices.publish(content, social);
+            return ResponseEntity.status(HttpStatus.OK).body("Content published successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error publishing content: " + e.getMessage());
         }
     }
 }
