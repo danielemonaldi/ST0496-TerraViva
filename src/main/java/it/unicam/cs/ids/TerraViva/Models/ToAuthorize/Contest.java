@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.TerraViva.Models.ToAuthorize;
 
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.Content;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.POI;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.*;
 
@@ -20,7 +21,7 @@ public class Contest extends AuthorizationEntity {
     private Date expire;
 
     @ManyToOne
-    private AuthorizationEntity reference;
+    private POI reference;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Content> contents;
@@ -85,11 +86,11 @@ public class Contest extends AuthorizationEntity {
         this.expire = expire;
     }
 
-    public AuthorizationEntity getReference() {
+    public POI getReference() {
         return reference;
     }
 
-    public void setReference(AuthorizationEntity reference) {
+    public void setReference(POI reference) {
         this.reference = reference;
     }
 
@@ -97,8 +98,17 @@ public class Contest extends AuthorizationEntity {
         return contents;
     }
 
-    public void setContents(List<Content> contents) {
-        this.contents = contents;
+    public void setContents(List<Content> contents) throws Exception {
+        List<Content> tempContents = this.contents;
+        try {
+            this.contents.clear();
+            for (Content content : contents) {
+                this.addContent(content);
+            }
+        } catch (Exception e) {
+            this.contents = tempContents;
+            throw e;
+        }
     }
 
     public void addContent(Content content) throws Exception {

@@ -65,16 +65,34 @@ public abstract class POI extends AuthorizationEntity {
         return contents;
     }
 
-    public void setContents(List<Content> contents) {
-        this.contents = contents;
+    public void setContents(List<Content> contents) throws Exception {
+        List<Content> tempContents = this.contents;
+        try {
+            this.contents.clear();
+            for (Content content : contents) {
+                this.addContent(content);
+            }
+        } catch (Exception e) {
+            this.contents = tempContents;
+            throw e;
+        }
     }
 
     public List<Contest> getContests() {
         return contests;
     }
 
-    public void setContests(List<Contest> contests) {
-        this.contests = contests;
+    public void setContests(List<Contest> contests) throws Exception {
+        List<Contest> tempContests = this.contests;
+        try {
+            this.contests.clear();
+            for (Contest contest : contests) {
+                this.addContest(contest);
+            }
+        } catch (Exception e) {
+            this.contests = tempContests;
+            throw e;
+        }
     }
 
     public void addContent(Content content) throws Exception {
