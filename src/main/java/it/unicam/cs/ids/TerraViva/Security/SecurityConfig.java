@@ -32,6 +32,9 @@ public class SecurityConfig {
                         Role.CONTRIBUTOR.getAuthority(),
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority())
                 .requestMatchers("/creation/poi-content",  "/creation/contest-content").hasAuthority(Role.AUTHORIZED_TOURIST.getAuthority())
+                .requestMatchers("/publish").hasAnyAuthority(
+                        Role.CURATOR.getAuthority(),
+                        Role.MANAGER.getAuthority())
                 .requestMatchers("/creation/POI").hasAnyAuthority(
                         Role.CONTRIBUTOR.getAuthority(),
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
