@@ -29,14 +29,9 @@ public class Contest extends AuthorizationEntity {
 
     public Contest() { contents = new ArrayList<>(); }
 
-    public Contest(String name, String theme, String rules, String criteria, Date starting, Date expire, User author) {
+    public Contest(User author, POI reference) {
         super(author);
-        this.name = name;
-        this.theme = theme;
-        this.rules = rules;
-        this.criteria = criteria;
-        this.starting = starting;
-        this.expire = expire;
+        this.reference = reference;
         contents = new ArrayList<>();
     }
 
