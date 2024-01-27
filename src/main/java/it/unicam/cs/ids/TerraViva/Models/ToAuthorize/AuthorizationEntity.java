@@ -18,7 +18,8 @@ import jakarta.persistence.*;
         @JsonSubTypes.Type(value = RecreationalPOI.class, name = "RECREATIONAL_POI"),
         @JsonSubTypes.Type(value = TextualContent.class, name = "TEXTUAL_CONTENT"),
         @JsonSubTypes.Type(value = MultimediaContent.class, name = "MULTIMEDIA_CONTENT"),
-        @JsonSubTypes.Type(value = Contest.class, name = "CONTEST")})
+        @JsonSubTypes.Type(value = Contest.class, name = "CONTEST"),
+        @JsonSubTypes.Type(value = Route.class, name = "ROUTE")})
 public abstract class AuthorizationEntity implements AuthorizationSubject {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)

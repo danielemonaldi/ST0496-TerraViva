@@ -3,10 +3,14 @@ package it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.AuthorizationEntity;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.Content;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contest;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Route;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public abstract class POI extends AuthorizationEntity {
@@ -21,12 +25,22 @@ public abstract class POI extends AuthorizationEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contest> contests;
 
-    public POI(){}
+    @ManyToMany(mappedBy = "locations")
+    private Set<Route> routes;
+
+    public POI() {
+        contents = new ArrayList<>();
+        contests = new ArrayList<>();
+        routes = new HashSet<>();
+    }
 
     public POI(double latitude, double longitude, User author) {
         super(author);
         this.latitude = latitude;
         this.longitude = longitude;
+        contents = new ArrayList<>();
+        contests = new ArrayList<>();
+        routes = new HashSet<>();
     }
 
     public String getName() {
@@ -93,6 +107,14 @@ public abstract class POI extends AuthorizationEntity {
             this.contests = tempContests;
             throw e;
         }
+    }
+
+    public Set<Route> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(Set<Route> routes) {
+        this.routes = routes;
     }
 
     public void addContent(Content content) throws Exception {

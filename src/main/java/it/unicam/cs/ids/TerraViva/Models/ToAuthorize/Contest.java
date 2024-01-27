@@ -5,6 +5,7 @@ import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.POI;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class Contest extends AuthorizationEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Content> contents;
 
-    public Contest(){}
+    public Contest() { contents = new ArrayList<>(); }
 
     public Contest(String name, String theme, String rules, String criteria, Date starting, Date expire, User author) {
         super(author);
@@ -36,6 +37,7 @@ public class Contest extends AuthorizationEntity {
         this.criteria = criteria;
         this.starting = starting;
         this.expire = expire;
+        contents = new ArrayList<>();
     }
 
     public String getName() {

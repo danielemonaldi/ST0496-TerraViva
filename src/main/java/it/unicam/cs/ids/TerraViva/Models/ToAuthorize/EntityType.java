@@ -7,5 +7,6 @@ public enum EntityType{
     RECREATIONAL_POI,
     TEXTUAL_CONTENT,
     MULTIMEDIA_CONTENT,
-    CONTEST;
+    CONTEST,
+    ROUTE;
 }
