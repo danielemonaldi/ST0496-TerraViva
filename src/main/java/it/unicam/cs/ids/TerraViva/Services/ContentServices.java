@@ -1,9 +1,7 @@
 package it.unicam.cs.ids.TerraViva.Services;
 
 import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.Content;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.MultimediaContent;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.TextualContent;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.*;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contest;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.POI;
 import it.unicam.cs.ids.TerraViva.Models.User;
@@ -27,6 +25,8 @@ public class ContentServices {
     @Autowired
     private AuthorizationRepository<Content> contentRepository;
 
+    private SocialManager socialManager;
+
     public TextualContent createTextualContent(User author, String data) {
         return new TextualContent(author, data);
     }
@@ -39,7 +39,23 @@ public class ContentServices {
         contentRepository.delete(content);
     }
 
-    public void publish(Content content) {}
+    public void publish(Content content, String social) {
+        switch (social.toLowerCase()) {
+            case "instagram":
+                InstagramPublisher instagramPublisher = new InstagramPublisher();
+                instagramPublisher.publish(content);
+                break;
+            case "facebook":
+                FacebookDecorator facebookPublisher = new FacebookDecorator(this.socialManager);
+                facebookPublisher.publish(content);
+                break;
+            case "x":
+                XDecorator xPublisher = new XDecorator(this.socialManager);
+                xPublisher.publish(content);
+            default:
+                throw new IllegalArgumentException(social + " social in not supported");
+        }
+    }
 
     public void report(Content content) {}
 
