@@ -40,6 +40,11 @@ public class SecurityConfig {
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
                         Role.ENTERTAINER.getAuthority(),
                         Role.AUTHORIZED_ENTERTAINER.getAuthority())
+                .requestMatchers("/creation/route").hasAnyAuthority(
+                        Role.CONTRIBUTOR.getAuthority(),
+                        Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
+                        Role.ENTERTAINER.getAuthority(),
+                        Role.AUTHORIZED_ENTERTAINER.getAuthority())
                 .anyRequest().authenticated()
             .and()
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
