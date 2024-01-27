@@ -18,9 +18,6 @@ public class POIServices {
     private AuthorizationRepository<POI> poiRepository;
 
     @Autowired
-    private UsersRepository usersRepository;
-
-    @Autowired
     private RequestServices requestServices;
 
     public CulturalPOI createCulturalPOI(double latitude, double longitude, User author) {
