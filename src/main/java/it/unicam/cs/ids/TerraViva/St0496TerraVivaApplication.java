@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "it.unicam.cs.ids.TerraViva")
 public class St0496TerraVivaApplication {
 
 	public static void main(String[] args) {

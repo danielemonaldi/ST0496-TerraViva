@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.TerraViva.Security.Authentication;
 
-import it.unicam.cs.ids.TerraViva.Services.JwtService;
+import it.unicam.cs.ids.TerraViva.Services.JwtServices;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import java.io.IOException;
 public class AuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtService jwtService;
+    private JwtServices jwtService;
 
     @Autowired
     private UserDetailsService userDetailsService;

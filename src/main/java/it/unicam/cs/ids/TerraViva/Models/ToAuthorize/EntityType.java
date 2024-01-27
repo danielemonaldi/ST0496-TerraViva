@@ -6,5 +6,7 @@ public enum EntityType{
     EVENT_POI,
     RECREATIONAL_POI,
     TEXTUAL_CONTENT,
-    MULTIMEDIA_CONTENT;
+    MULTIMEDIA_CONTENT,
+    CONTEST,
+    ROUTE;
 }

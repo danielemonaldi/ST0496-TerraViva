@@ -1,11 +1,16 @@
 package it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI;
 
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.AuthorizationEntity;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes.Content;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents.Content;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contest;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Route;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public abstract class POI extends AuthorizationEntity {
@@ -14,15 +19,28 @@ public abstract class POI extends AuthorizationEntity {
     private double latitude;
     private double longitude;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Content> contents;
 
-    public POI(){}
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Contest> contests;
+
+    @ManyToMany(mappedBy = "locations")
+    private Set<Route> routes;
+
+    public POI() {
+        contents = new ArrayList<>();
+        contests = new ArrayList<>();
+        routes = new HashSet<>();
+    }
 
     public POI(double latitude, double longitude, User author) {
         super(author);
         this.latitude = latitude;
         this.longitude = longitude;
+        contents = new ArrayList<>();
+        contests = new ArrayList<>();
+        routes = new HashSet<>();
     }
 
     public String getName() {
@@ -61,7 +79,59 @@ public abstract class POI extends AuthorizationEntity {
         return contents;
     }
 
-    public void setContents(List<Content> contents) {
-        this.contents = contents;
+    public void setContents(List<Content> contents) throws Exception {
+        List<Content> tempContents = this.contents;
+        try {
+            this.contents.clear();
+            for (Content content : contents) {
+                this.addContent(content);
+            }
+        } catch (Exception e) {
+            this.contents = tempContents;
+            throw e;
+        }
+    }
+
+    public List<Contest> getContests() {
+        return contests;
+    }
+
+    public void setContests(List<Contest> contests) throws Exception {
+        List<Contest> tempContests = this.contests;
+        try {
+            this.contests.clear();
+            for (Contest contest : contests) {
+                this.addContest(contest);
+            }
+        } catch (Exception e) {
+            this.contests = tempContests;
+            throw e;
+        }
+    }
+
+    public Set<Route> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(Set<Route> routes) {
+        this.routes = routes;
+    }
+
+    public void addContent(Content content) throws Exception {
+        this.contents.add(content);
+        content.setReference(this);
+    }
+
+    public boolean removeContent(Content content) {
+        return this.contents.remove(content);
+    }
+
+    public void addContest(Contest contest) throws Exception {
+        this.contests.add(contest);
+        contest.setReference(this);
+    }
+
+    public boolean removeContest(Contest contest) {
+        return this.contests.remove(contest);
     }
 }

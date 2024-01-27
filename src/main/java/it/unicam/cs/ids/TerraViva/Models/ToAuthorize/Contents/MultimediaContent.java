@@ -1,5 +1,6 @@
-package it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contributes;
+package it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contents;
 
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.AuthorizationEntity;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -9,9 +10,8 @@ import jakarta.persistence.Table;
 public class MultimediaContent extends Content {
     private String caption;
 
-    public MultimediaContent(User author, String data, String caption) {
+    public MultimediaContent(User author, String data) {
         super(author, data);
-        this.caption = caption;
     }
 
     public MultimediaContent() {}
