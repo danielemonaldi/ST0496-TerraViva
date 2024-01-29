@@ -44,7 +44,6 @@ public class RouteServices {
         //        !poi.getAuthor().getAuthorities().contains(Role.AUTHORIZED_CONTRIBUTOR) &&
         //        !poi.authorized()) {
 
-        route.getLocations().forEach(l -> System.out.println(poiRepository.findById(l.getID())));
             Date creation = new Date(System.currentTimeMillis());
             AuthorizationRequest request = new AuthorizationRequest(route.getAuthor(), route, creation);
             requestServices.submit(request);
