@@ -19,15 +19,12 @@ class AuthenticationServicesTest {
     private UsersRepository usersRepository;
 
     @Autowired
-    private JwtServices jwtService;
-
-    @Autowired
     private AuthenticationServices authenticationServices;
 
     @Test
     @DirtiesContext
     @Transactional
-    void testRegister() {
+    void register() {
 
         // Register new account
         RegisterRequest registerRequest = new RegisterRequest("testUser", "password", "test@example.com");
@@ -40,7 +37,7 @@ class AuthenticationServicesTest {
     @Test
     @Transactional
     @DirtiesContext
-    void testAuthenticate() {
+    void login() {
 
         // Register new account
         RegisterRequest registerRequest = new RegisterRequest("testUser", "password", "test@example.com");

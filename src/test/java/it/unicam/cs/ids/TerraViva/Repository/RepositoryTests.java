@@ -5,8 +5,12 @@ import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
 import it.unicam.cs.ids.TerraViva.Models.Requests.PromotionRequest;
 import it.unicam.cs.ids.TerraViva.Models.Requests.RequestStatus;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.AuthorizationEntity;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.CulturalPOI;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.EventPOI;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.POI;
+import it.unicam.cs.ids.TerraViva.Security.Authentication.RegisterRequest;
+import it.unicam.cs.ids.TerraViva.Services.AuthenticationServices;
+import it.unicam.cs.ids.TerraViva.Services.POIServices;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,39 +38,44 @@ public class RepositoryTests {
     @Autowired
     private UsersRepository usersRepository;
 
+    @Autowired
+    private AuthenticationServices authenticationServices;
+
+    @Autowired
+    private POIServices poiServices;
+
     @Test
     @DirtiesContext
     @Transactional
     public void testAuthorizationEntityRepository() {
-        User user = new User("testUser", "password", "test@example.com", Role.AUTHORIZED_TOURIST);
-        user = usersRepository.save(user);
 
-        EventPOI poi = new EventPOI(0.0, 0.0, user);
-        poi.setName("Test POI");
-        poi.setCreation(new Date());
-        poi.setExpire(new Date());
-        AuthorizationEntity savedPoi = authorizationRepository.save(poi);
+        RegisterRequest registerRequest = new RegisterRequest("testUser", "password", "test@example.com");
+        authenticationServices.register(registerRequest);
+        User author = usersRepository.findByUsername("testUser").orElseThrow();
 
-        Optional<AuthorizationEntity> retrievedPoi = authorizationRepository.findById(savedPoi.getID());
+        CulturalPOI poi = poiServices.createCulturalPOI(0.0, 0.0, author);
+        poi.setName("testPOI");
+        poiServices.confirmNew(poi);
 
+        Optional<AuthorizationEntity> retrievedPoi = authorizationRepository.findById(poi.getID());
         assertTrue(retrievedPoi.isPresent());
-        assertEquals("Test POI", ((POI) retrievedPoi.get()).getName());
+        assertEquals("testPOI", ((POI) retrievedPoi.get()).getName());
     }
 
     @Test
     @DirtiesContext
     @Transactional
     public void testAuthorizationRequestRepository() {
-        User user = new User("testUser", "password", "test@example.com", Role.AUTHORIZED_TOURIST);
-        user = usersRepository.save(user);
 
-        EventPOI poi = new EventPOI(0.0, 0.0, user);
-        poi.setName("test");
-        poi.setCreation(new Date());
-        poi.setExpire(new Date());
-        poi = authorizationRepository.save(poi);
+        RegisterRequest registerRequest = new RegisterRequest("testUser", "password", "test@example.com");
+        authenticationServices.register(registerRequest);
+        User author = usersRepository.findByUsername("testUser").orElseThrow();
 
-        AuthorizationRequest authRequest = new AuthorizationRequest(user, poi, new Date());
+        CulturalPOI poi = poiServices.createCulturalPOI(0.0, 0.0, author);
+        poi.setName("testPOI");
+        poiServices.confirmNew(poi);
+
+        AuthorizationRequest authRequest = new AuthorizationRequest(author, poi, new Date());
         AuthorizationRequest savedAuthRequest = authRequestRepository.save(authRequest);
 
         Optional<AuthorizationRequest> retrievedAuthRequest = authRequestRepository.findById(savedAuthRequest.getID());
@@ -79,10 +88,12 @@ public class RepositoryTests {
     @DirtiesContext
     @Transactional
     public void testPromotionRequestRepository() {
-        User user = new User("testUser", "password", "test@example.com", Role.AUTHORIZED_TOURIST);
-        user = usersRepository.save(user);
 
-        PromotionRequest promRequest = new PromotionRequest(user, "Test motivation", Role.CONTRIBUTOR, new Date());
+        RegisterRequest registerRequest = new RegisterRequest("testUser", "password", "test@example.com");
+        authenticationServices.register(registerRequest);
+        User author = usersRepository.findByUsername("testUser").orElseThrow();
+
+        PromotionRequest promRequest = new PromotionRequest(author, "Test motivation", Role.CONTRIBUTOR, new Date());
         PromotionRequest savedPromRequest = promRequestRepository.save(promRequest);
 
         Optional<PromotionRequest> retrievedPromRequest = promRequestRepository.findById(savedPromRequest.getID());
@@ -91,4 +102,3 @@ public class RepositoryTests {
         assertEquals(RequestStatus.PENDING, retrievedPromRequest.get().getStatus());
     }
 }
-
