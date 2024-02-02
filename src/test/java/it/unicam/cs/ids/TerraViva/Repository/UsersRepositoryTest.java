@@ -23,16 +23,11 @@ class UsersRepositoryTest {
     @Transactional
     public void testSaveUser() {
 
-        // User creation
         User user = new User("testUser", "password", "test@example.com", Role.AUTHORIZED_TOURIST);
-
-        // User saving
         usersRepository.save(user);
 
-        // User retrieves
         User retrievedUser = usersRepository.findByUsername("testUser").orElse(null);
 
-        // Verification
         assertNotNull(retrievedUser);
         assertEquals("test@example.com", retrievedUser.getEmail());
     }

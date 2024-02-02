@@ -3,11 +3,11 @@ package it.unicam.cs.ids.TerraViva.Services;
 import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
 import it.unicam.cs.ids.TerraViva.Models.Requests.MultiStatusRequest;
 import it.unicam.cs.ids.TerraViva.Models.Requests.RequestStatus;
-import it.unicam.cs.ids.TerraViva.Models.Role;
-import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.EventPOI;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.CulturalPOI;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import it.unicam.cs.ids.TerraViva.Repository.RequestRepository;
 import it.unicam.cs.ids.TerraViva.Repository.UsersRepository;
+import it.unicam.cs.ids.TerraViva.Security.Authentication.RegisterRequest;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +22,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class AuthRequestServicesTest {
+
     @Autowired
-    private UsersRepository userRepo;
+    private UsersRepository usersRepository;
 
     @Autowired
     private RequestServices authRequestServices;
+
+    @Autowired
+    private POIServices poiServices;
+
+    @Autowired
+    private AuthenticationServices authenticationServices;
 
     @Autowired
     private RequestRepository<AuthorizationRequest> authRequestRepository;
@@ -42,41 +49,44 @@ public class AuthRequestServicesTest {
     @Test
     @DirtiesContext
     @Transactional
-    public void testSubmit() {
-        User author = new User("testUsername", "123", "test@gmail.com", Role.AUTHORIZED_TOURIST);
-        userRepo.save(author);
-        EventPOI content = new EventPOI(0.0, 0.0, author);
-        content.setName("test");
-        content.setCreation(new Date());
-        content.setExpire(new Date());
+    public void submit() {
 
-        AuthorizationRequest request = new AuthorizationRequest(author, content, new Date(System.currentTimeMillis()));
+        RegisterRequest registerRequest = new RegisterRequest("testUser", "password", "test@example.com");
+        authenticationServices.register(registerRequest);
+        User author = usersRepository.findByUsername("testUser").orElseThrow();
+
+        CulturalPOI poi = poiServices.createCulturalPOI(0.0, 0.0, author);
+        poi.setName("testPOI");
+        poiServices.confirmNew(poi);
+
+        AuthorizationRequest request = new AuthorizationRequest(author, poi, new Date(System.currentTimeMillis()));
         authRequestServices.submit(request);
 
         Optional<AuthorizationRequest> savedRequest = authRequestRepository.findById(request.getID());
-
         assertTrue(savedRequest.isPresent());
         assertEquals(RequestStatus.PENDING, savedRequest.get().getStatus());
-        assertEquals(content, savedRequest.get().getContent());
+        assertEquals(poi, savedRequest.get().getContent());
         assertEquals(author, savedRequest.get().getAuthor());
     }
 
     @Test
     @DirtiesContext
     @Transactional
-    public void testAccept() throws Exception {
-        User author = new User("testUsername", "123", "test@gmail.com", Role.AUTHORIZED_TOURIST);
-        EventPOI content = new EventPOI(0.0, 0.0, author);
-        content.setName("test");
-        content.setCreation(new Date());
-        content.setExpire(new Date());
+    public void accept() throws Exception {
 
-        AuthorizationRequest request = new AuthorizationRequest(author, content, new Date(System.currentTimeMillis()));
+        RegisterRequest registerRequest = new RegisterRequest("testUser", "password", "test@example.com");
+        authenticationServices.register(registerRequest);
+        User author = usersRepository.findByUsername("testUser").orElseThrow();
+
+        CulturalPOI poi = poiServices.createCulturalPOI(0.0, 0.0, author);
+        poi.setName("testPOI");
+        poiServices.confirmNew(poi);
+
+        AuthorizationRequest request = new AuthorizationRequest(author, poi, new Date(System.currentTimeMillis()));
         authRequestRepository.save(request);
         authRequestServices.accept(request);
 
         Optional<AuthorizationRequest> acceptedRequest = authRequestRepository.findById(request.getID());
-
         assertTrue(acceptedRequest.isPresent());
         assertEquals(RequestStatus.APPROVED, acceptedRequest.get().getStatus());
     }
@@ -84,19 +94,22 @@ public class AuthRequestServicesTest {
     @Test
     @DirtiesContext
     @Transactional
-    public void testReject() throws Exception {
-        User author = new User("testUsername", "123", "test@gmail.com", Role.AUTHORIZED_TOURIST);
-        EventPOI content = new EventPOI(0.0, 0.0, author);
-        content.setName("test");
-        content.setCreation(new Date());
-        content.setExpire(new Date());
+    public void reject() throws Exception {
 
-        AuthorizationRequest request = new AuthorizationRequest(author, content, new Date(System.currentTimeMillis()));        authRequestRepository.save(request);
+        RegisterRequest registerRequest = new RegisterRequest("testUser", "password", "test@example.com");
+        authenticationServices.register(registerRequest);
+        User author = usersRepository.findByUsername("testUser").orElseThrow();
+
+        CulturalPOI poi = poiServices.createCulturalPOI(0.0, 0.0, author);
+        poi.setName("testPOI");
+        poiServices.confirmNew(poi);
+
+        AuthorizationRequest request = new AuthorizationRequest(author, poi, new Date(System.currentTimeMillis()));
+        authRequestRepository.save(request);
 
         authRequestServices.reject(request);
 
         Optional<AuthorizationRequest> rejectedRequest = authRequestRepository.findById(request.getID());
-
         assertTrue(rejectedRequest.isPresent());
         assertEquals(RequestStatus.REJECTED, rejectedRequest.get().getStatus());
     }
