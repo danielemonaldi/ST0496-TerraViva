@@ -4,7 +4,6 @@ import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.*;
 import it.unicam.cs.ids.TerraViva.Models.Requests.AuthorizationRequest;
 import it.unicam.cs.ids.TerraViva.Models.User;
 import it.unicam.cs.ids.TerraViva.Repository.AuthorizationRepository;
-import it.unicam.cs.ids.TerraViva.Repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class POIServices {
+
     @Autowired
     private AuthorizationRepository<POI> poiRepository;
 
@@ -40,7 +40,7 @@ public class POIServices {
         poiRepository.delete(poi);
     }
 
-    public List<POI> getPOI() {
+    public List<POI> getAllPOI() {
         return poiRepository.findAll();
     }
 
@@ -49,15 +49,9 @@ public class POIServices {
     }
 
     public void confirmNew(POI poi) {
-        // if(!poi.getAuthor().getAuthorities().contains(Role.AUTHORIZED_ENTERTAINER) &&
-        //        !poi.getAuthor().getAuthorities().contains(Role.AUTHORIZED_CONTRIBUTOR) &&
-        //        !poi.authorized()) {
-            Date creation = new Date(System.currentTimeMillis());
-            AuthorizationRequest request = new AuthorizationRequest(poi.getAuthor(), poi, creation);
-            requestServices.submit(request);
-        // } else {
-        //    poi.authorize();
-        // }
+        Date creation = new Date(System.currentTimeMillis());
+        AuthorizationRequest request = new AuthorizationRequest(poi.getAuthor(), poi, creation);
+        requestServices.submit(request);
         poiRepository.save(poi);
     }
 

@@ -47,6 +47,10 @@ public class ContestServices {
         contestRepository.delete(contest);
     }
 
+    public List<Contest> getAllContests() {
+        return contestRepository.findAll();
+    }
+
     public Optional<Contest> getContest(long ID) {
         return contestRepository.findById(ID);
     }

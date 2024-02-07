@@ -9,16 +9,14 @@ import it.unicam.cs.ids.TerraViva.Services.POIServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class ContentController {
+
     @Autowired
     ContentServices contentServices;
 
@@ -68,5 +66,10 @@ public class ContentController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error publishing content: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/content/getContents/{id}")
+    public ResponseEntity<List<Content>> getContents(@PathVariable("id") long id) {
+        return new ResponseEntity<>(contentServices.getContents(id), HttpStatus.OK);
     }
 }

@@ -45,6 +45,10 @@ public class SecurityConfig {
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
                         Role.ENTERTAINER.getAuthority(),
                         Role.AUTHORIZED_ENTERTAINER.getAuthority())
+                .requestMatchers("POI/getAllPOI", "/POI/getInfo/{id}").permitAll()
+                .requestMatchers("/contest/getAllContests", "/contest/getContests/{id}").permitAll()
+                .requestMatchers("/content/getContents/{id}").permitAll()
+                .requestMatchers("/route/getAllRoutes").permitAll()
                 .anyRequest().authenticated()
             .and()
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
