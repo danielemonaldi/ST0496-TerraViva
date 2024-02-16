@@ -25,7 +25,9 @@ public class JwtServices {
     private long expiration;
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails, expiration);
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("role", userDetails.getAuthorities().iterator().next().getAuthority());
+        return generateToken(extraClaims, userDetails, expiration);
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
@@ -59,9 +61,7 @@ public class JwtServices {
                 .getBody();
     }
 
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
+    public String extractUsername(String token) {return extractClaim(token, Claims::getSubject);}
 
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
