@@ -16,7 +16,7 @@ public class POIController {
     @Autowired
     POIServices poiServices;
 
-    @PostMapping("/creation/POI")
+    @PostMapping("/POI/creation")
     public ResponseEntity<String> create(@RequestBody POI poi){
         try {
             poiServices.confirmNew(poi);

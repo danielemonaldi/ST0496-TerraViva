@@ -35,7 +35,7 @@ public class AuthenticationServices {
         User user = new User(request.username(), passwordEncoder.encode(request.password()), request.email(), Role.AUTHORIZED_TOURIST);
         usersRepository.save(user);
 
-        return new AuthenticationResponse(jwtService.generateToken(user));
+        return new AuthenticationResponse(jwtService.generateToken(user), user.getUsername(), user.getRole());
     }
 
     public AuthenticationResponse login(LoginRequest request) {
@@ -43,6 +43,6 @@ public class AuthenticationServices {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
         var user = usersRepository.findByUsername(request.username()).orElseThrow();
 
-        return new AuthenticationResponse(jwtService.generateToken(user));
+        return new AuthenticationResponse(jwtService.generateToken(user), user.getUsername(), user.getRole());
     }
 }

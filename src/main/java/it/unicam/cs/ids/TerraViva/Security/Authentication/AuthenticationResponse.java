@@ -1,3 +1,5 @@
 package it.unicam.cs.ids.TerraViva.Security.Authentication;
 
-public record AuthenticationResponse(String token) {}
+import it.unicam.cs.ids.TerraViva.Models.Role;
+
+public record AuthenticationResponse(String token, String username, Role role) {}

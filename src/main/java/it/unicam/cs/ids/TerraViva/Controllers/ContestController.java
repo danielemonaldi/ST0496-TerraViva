@@ -22,7 +22,7 @@ public class ContestController {
     @Autowired
     POIServices poiServices;
 
-    @PostMapping("/creation/contest")
+    @PostMapping("/contest/creation")
     public ResponseEntity<String> create(@RequestBody Contest contest, @RequestParam long reference) {
         try {
             Optional<POI> poi = poiServices.getPOI(reference);
@@ -38,7 +38,7 @@ public class ContestController {
         }
     }
 
-    @PostMapping("/deletion/contest")
+    @PostMapping("/contest/deletion")
     public ResponseEntity<String> delete(@RequestBody Contest contest) {
         try {
             contestServices.delete(contest);

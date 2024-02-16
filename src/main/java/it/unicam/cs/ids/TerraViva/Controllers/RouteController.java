@@ -18,7 +18,7 @@ public class RouteController {
     @Autowired
     RouteServices routeServices;
 
-    @PostMapping("/creation/route")
+    @PostMapping("/route/creation")
     public ResponseEntity<String> create(@RequestBody Route route){
         try {
             routeServices.confirmNew(route);

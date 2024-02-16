@@ -26,7 +26,7 @@ public class ContentController {
     @Autowired
     ContestServices contestServices;
 
-    @PostMapping("/creation/poi-content")
+    @PostMapping("/poi-content/creation/")
     public ResponseEntity<String> createPoiContent(@RequestBody Content content, @RequestParam long reference) {
         try {
             Optional<POI> poi = poiServices.getPOI(reference);
@@ -42,7 +42,7 @@ public class ContentController {
         }
     }
 
-    @PostMapping("/creation/contest-content")
+    @PostMapping("/contest-content/creation/")
     public ResponseEntity<String> createContestContent(@RequestBody Content content, @RequestParam long reference) {
         try {
             Optional<Contest> contest = contestServices.getContest(reference);
@@ -58,7 +58,7 @@ public class ContentController {
         }
     }
 
-    @PostMapping("/publish")
+    @PostMapping("/content/publish")
     public ResponseEntity<String> createContestContent(@RequestBody Content content, @RequestParam String social) {
         try {
             contentServices.publish(content, social);
