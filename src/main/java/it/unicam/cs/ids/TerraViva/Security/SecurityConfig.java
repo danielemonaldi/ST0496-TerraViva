@@ -28,23 +28,27 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeRequests()
                 .requestMatchers("/register", "/login").permitAll()
-                .requestMatchers("/creation/contest", "/deletion/contest").hasAnyAuthority(
+                .requestMatchers("/contest/creation", "/contest/deletion").hasAnyAuthority(
                         Role.CONTRIBUTOR.getAuthority(),
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority())
-                .requestMatchers("/creation/poi-content",  "/creation/contest-content").hasAuthority(Role.AUTHORIZED_TOURIST.getAuthority())
-                .requestMatchers("/publish").hasAnyAuthority(
+                .requestMatchers("/poi-content/creation",  "/contest-content/creation/").hasAuthority(Role.AUTHORIZED_TOURIST.getAuthority())
+                .requestMatchers("/content/publish").hasAnyAuthority(
                         Role.CURATOR.getAuthority(),
                         Role.MANAGER.getAuthority())
-                .requestMatchers("/creation/POI").hasAnyAuthority(
+                .requestMatchers("/POI/creation").hasAnyAuthority(
                         Role.CONTRIBUTOR.getAuthority(),
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
                         Role.ENTERTAINER.getAuthority(),
                         Role.AUTHORIZED_ENTERTAINER.getAuthority())
-                .requestMatchers("/creation/route").hasAnyAuthority(
+                .requestMatchers("/route/creation").hasAnyAuthority(
                         Role.CONTRIBUTOR.getAuthority(),
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
                         Role.ENTERTAINER.getAuthority(),
                         Role.AUTHORIZED_ENTERTAINER.getAuthority())
+                .requestMatchers("/POI/getAllPOI", "/POI/getInfo/{id}").permitAll()
+                .requestMatchers("/contest/getAllContests", "/contest/getContests/{id}").permitAll()
+                .requestMatchers("/content/getContents/{id}").permitAll()
+                .requestMatchers("/route/getAllRoutes").permitAll()
                 .anyRequest().authenticated()
             .and()
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

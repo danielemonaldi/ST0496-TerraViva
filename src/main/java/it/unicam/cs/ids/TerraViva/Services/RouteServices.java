@@ -16,6 +16,7 @@ import java.util.Set;
 
 @Service
 public class RouteServices {
+
     @Autowired
     private AuthorizationRepository<Route> routeRepository;
 
@@ -40,18 +41,14 @@ public class RouteServices {
     }
 
     public void confirmNew(Route route) {
-        // if(!poi.getAuthor().getAuthorities().contains(Role.AUTHORIZED_ENTERTAINER) &&
-        //        !poi.getAuthor().getAuthorities().contains(Role.AUTHORIZED_CONTRIBUTOR) &&
-        //        !poi.authorized()) {
-
-        route.getLocations().forEach(l -> System.out.println(poiRepository.findById(l.getID())));
-            Date creation = new Date(System.currentTimeMillis());
-            AuthorizationRequest request = new AuthorizationRequest(route.getAuthor(), route, creation);
-            requestServices.submit(request);
-        // } else {
-        //    poi.authorize();
-        // }
+        Date creation = new Date(System.currentTimeMillis());
+        AuthorizationRequest request = new AuthorizationRequest(route.getAuthor(), route, creation);
+        requestServices.submit(request);
         routeRepository.save(route);
     }
     public void save(Route route) { routeRepository.save(route); }
+
+    public List<Route> getAllRoutes() {
+        return routeRepository.findAll();
+    }
 }

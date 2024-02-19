@@ -2,16 +2,15 @@ package it.unicam.cs.ids.TerraViva.Controllers;
 
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Contest;
 import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.POI.POI;
+import it.unicam.cs.ids.TerraViva.Models.ToAuthorize.Route;
 import it.unicam.cs.ids.TerraViva.Services.ContestServices;
 import it.unicam.cs.ids.TerraViva.Services.POIServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,7 +22,7 @@ public class ContestController {
     @Autowired
     POIServices poiServices;
 
-    @PostMapping("/creation/contest")
+    @PostMapping("/contest/creation")
     public ResponseEntity<String> create(@RequestBody Contest contest, @RequestParam long reference) {
         try {
             Optional<POI> poi = poiServices.getPOI(reference);
@@ -39,7 +38,7 @@ public class ContestController {
         }
     }
 
-    @PostMapping("/deletion/contest")
+    @PostMapping("/contest/deletion")
     public ResponseEntity<String> delete(@RequestBody Contest contest) {
         try {
             contestServices.delete(contest);
@@ -47,5 +46,15 @@ public class ContestController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error deleting contest: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/contest/getAllContests")
+    public ResponseEntity<List<Contest>> getAllContests() {
+        return ResponseEntity.status(HttpStatus.OK).body(contestServices.getAllContests());
+    }
+
+    @GetMapping("/contest/getContests/{id}")
+    public ResponseEntity<List<Contest>> getContests(@PathVariable("id") long id) {
+        return new ResponseEntity<>(contestServices.getContests(id), HttpStatus.OK);
     }
 }

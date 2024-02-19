@@ -5,9 +5,10 @@ import it.unicam.cs.ids.TerraViva.Services.POIServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class POIController {
@@ -15,7 +16,7 @@ public class POIController {
     @Autowired
     POIServices poiServices;
 
-    @PostMapping("/creation/POI")
+    @PostMapping("/POI/creation")
     public ResponseEntity<String> create(@RequestBody POI poi){
         try {
             poiServices.confirmNew(poi);
@@ -23,5 +24,15 @@ public class POIController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating POI: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/POI/getAllPOI")
+    public ResponseEntity<List<POI>> getAllPOI() {
+        return ResponseEntity.status(HttpStatus.OK).body(poiServices.getAllPOI());
+    }
+
+    @GetMapping("/POI/getInfo/{id}")
+    public ResponseEntity<Optional<POI>> getInfo(@PathVariable("id") long id){
+        return new ResponseEntity<>(poiServices.getPOI(id), HttpStatus.OK);
     }
 }

@@ -9,16 +9,14 @@ import it.unicam.cs.ids.TerraViva.Services.POIServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class ContentController {
+
     @Autowired
     ContentServices contentServices;
 
@@ -28,7 +26,7 @@ public class ContentController {
     @Autowired
     ContestServices contestServices;
 
-    @PostMapping("/creation/poi-content")
+    @PostMapping("/poi-content/creation/")
     public ResponseEntity<String> createPoiContent(@RequestBody Content content, @RequestParam long reference) {
         try {
             Optional<POI> poi = poiServices.getPOI(reference);
@@ -44,7 +42,7 @@ public class ContentController {
         }
     }
 
-    @PostMapping("/creation/contest-content")
+    @PostMapping("/contest-content/creation/")
     public ResponseEntity<String> createContestContent(@RequestBody Content content, @RequestParam long reference) {
         try {
             Optional<Contest> contest = contestServices.getContest(reference);
@@ -60,7 +58,7 @@ public class ContentController {
         }
     }
 
-    @PostMapping("/publish")
+    @PostMapping("/content/publish")
     public ResponseEntity<String> createContestContent(@RequestBody Content content, @RequestParam String social) {
         try {
             contentServices.publish(content, social);
@@ -68,5 +66,10 @@ public class ContentController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error publishing content: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/content/getContents/{id}")
+    public ResponseEntity<List<Content>> getContents(@PathVariable("id") long id) {
+        return new ResponseEntity<>(contentServices.getContents(id), HttpStatus.OK);
     }
 }

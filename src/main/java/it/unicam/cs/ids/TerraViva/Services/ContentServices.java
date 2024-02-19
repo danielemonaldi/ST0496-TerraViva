@@ -9,7 +9,9 @@ import it.unicam.cs.ids.TerraViva.Repository.AuthorizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ContentServices {
@@ -24,6 +26,9 @@ public class ContentServices {
 
     @Autowired
     private AuthorizationRepository<Content> contentRepository;
+
+    @Autowired
+    private AuthorizationRepository<POI> poiRepository;
 
     private SocialManager socialManager;
 
@@ -75,5 +80,10 @@ public class ContentServices {
         requestServices.submit(request);
         reference.addContent(content);
         contestServices.save(reference);
+    }
+
+    public List<Content> getContents(long idPOI) {return poiRepository.findById(idPOI)
+            .map(POI::getContents)
+            .orElse(Collections.emptyList());
     }
 }
