@@ -16,7 +16,7 @@ public class POIController {
     @Autowired
     POIServices poiServices;
 
-    @PostMapping("/POI/creation")
+    @PostMapping("/POI")
     public ResponseEntity<String> create(@RequestBody POI poi){
         try {
             poiServices.confirmNew(poi);
@@ -26,12 +26,12 @@ public class POIController {
         }
     }
 
-    @GetMapping("/POI/getAllPOI")
+    @GetMapping("/POI")
     public ResponseEntity<List<POI>> getAllPOI() {
         return ResponseEntity.status(HttpStatus.OK).body(poiServices.getAllPOI());
     }
 
-    @GetMapping("/POI/getInfo/{id}")
+    @GetMapping("/POI/{id}")
     public ResponseEntity<Optional<POI>> getInfo(@PathVariable("id") long id){
         return new ResponseEntity<>(poiServices.getPOI(id), HttpStatus.OK);
     }

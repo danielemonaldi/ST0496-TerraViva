@@ -5,6 +5,7 @@ import it.unicam.cs.ids.TerraViva.Security.Authentication.AuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,28 +28,40 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeRequests()
-                .requestMatchers("/register", "/login").permitAll()
-                .requestMatchers("/contest/creation", "/contest/deletion").hasAnyAuthority(
-                        Role.CONTRIBUTOR.getAuthority(),
-                        Role.AUTHORIZED_CONTRIBUTOR.getAuthority())
-                .requestMatchers("/poi-content/creation",  "/contest-content/creation/").hasAuthority(Role.AUTHORIZED_TOURIST.getAuthority())
-                .requestMatchers("/content/publish").hasAnyAuthority(
+                .requestMatchers(HttpMethod.POST, "/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/login").permitAll()
+
+                .requestMatchers(HttpMethod.POST, "/contest").hasAnyAuthority(
+                        Role.ENTERTAINER.getAuthority(),
+                        Role.AUTHORIZED_ENTERTAINER.getAuthority())
+                .requestMatchers(HttpMethod.DELETE, "/contest").hasAnyAuthority(
+                        Role.ENTERTAINER.getAuthority(),
+                        Role.AUTHORIZED_ENTERTAINER.getAuthority())
+                .requestMatchers(HttpMethod.GET, "/contest").permitAll()
+                .requestMatchers(HttpMethod.GET, "/contest/{id}").permitAll()
+
+                .requestMatchers(HttpMethod.POST, "/poi-content").hasAuthority(Role.AUTHORIZED_TOURIST.getAuthority())
+                .requestMatchers(HttpMethod.POST, "/contest-content").hasAuthority(Role.AUTHORIZED_TOURIST.getAuthority())
+                .requestMatchers(HttpMethod.POST, "/content/publish").hasAnyAuthority(
                         Role.CURATOR.getAuthority(),
                         Role.MANAGER.getAuthority())
-                .requestMatchers("/POI/creation").hasAnyAuthority(
+                .requestMatchers("/content/{id}").permitAll()
+
+                .requestMatchers(HttpMethod.POST, "/POI").hasAnyAuthority(
+                        Role.CONTRIBUTOR.getAuthority(),
+                        Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
+                        Role.ENTERTAINER.getAuthority(),
+                        Role.AUTHORIZED_ENTERTAINER.getAuthority(),
+                        Role.AUTHORIZED_TOURIST.getAuthority())
+                .requestMatchers(HttpMethod.GET, "/POI").permitAll()
+                .requestMatchers(HttpMethod.GET, "/POI/{id}").permitAll()
+
+                .requestMatchers(HttpMethod.POST, "/route").hasAnyAuthority(
                         Role.CONTRIBUTOR.getAuthority(),
                         Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
                         Role.ENTERTAINER.getAuthority(),
                         Role.AUTHORIZED_ENTERTAINER.getAuthority())
-                .requestMatchers("/route/creation").hasAnyAuthority(
-                        Role.CONTRIBUTOR.getAuthority(),
-                        Role.AUTHORIZED_CONTRIBUTOR.getAuthority(),
-                        Role.ENTERTAINER.getAuthority(),
-                        Role.AUTHORIZED_ENTERTAINER.getAuthority())
-                .requestMatchers("/POI/getAllPOI", "/POI/getInfo/{id}").permitAll()
-                .requestMatchers("/contest/getAllContests", "/contest/getContests/{id}").permitAll()
-                .requestMatchers("/content/getContents/{id}").permitAll()
-                .requestMatchers("/route/getAllRoutes").permitAll()
+                .requestMatchers(HttpMethod.GET, "/route").permitAll()
                 .anyRequest().authenticated()
             .and()
             .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

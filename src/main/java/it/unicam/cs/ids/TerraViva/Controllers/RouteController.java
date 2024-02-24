@@ -18,7 +18,7 @@ public class RouteController {
     @Autowired
     RouteServices routeServices;
 
-    @PostMapping("/route/creation")
+    @PostMapping("/route")
     public ResponseEntity<String> create(@RequestBody Route route){
         try {
             routeServices.confirmNew(route);
@@ -28,7 +28,7 @@ public class RouteController {
         }
     }
 
-    @GetMapping("/route/getAllRoutes")
+    @GetMapping("/route")
     public ResponseEntity<List<Route>> getAllRoutes() {
         return ResponseEntity.status(HttpStatus.OK).body(routeServices.getAllRoutes());
     }
