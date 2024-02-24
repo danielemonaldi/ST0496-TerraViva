@@ -22,9 +22,9 @@ public class RouteController {
     public ResponseEntity<String> create(@RequestBody Route route){
         try {
             routeServices.confirmNew(route);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Route created successfully");
+            return ResponseEntity.status(HttpStatus.CREATED).body("\"Route created successfully\"");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating route: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"Error creating route: " + e.getMessage() + "\"");
         }
     }
 

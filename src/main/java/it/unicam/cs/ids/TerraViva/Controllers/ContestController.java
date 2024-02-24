@@ -28,13 +28,13 @@ public class ContestController {
             Optional<POI> poi = poiServices.getPOI(reference);
             if(poi.isPresent()) {
                 contestServices.confirmNew(contest, poi.get());
-                return ResponseEntity.status(HttpStatus.CREATED).body("Contest created successfully");
+                return ResponseEntity.status(HttpStatus.CREATED).body("\"Contest created successfully\"");
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Error uploading contest: no reference entity with the given ID");
+                        .body("\"Error uploading contest: no reference entity with the given ID\"");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error uploading contest: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"Error uploading contest: " + e.getMessage() + "\"");
         }
     }
 
@@ -42,9 +42,9 @@ public class ContestController {
     public ResponseEntity<String> delete(@RequestBody Contest contest) {
         try {
             contestServices.delete(contest);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Contest deleted successfully");
+            return ResponseEntity.status(HttpStatus.CREATED).body("\"Contest deleted successfully\"");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error deleting contest: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"Error deleting contest: " + e.getMessage() + "\"");
         }
     }
 

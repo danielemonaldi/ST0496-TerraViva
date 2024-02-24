@@ -20,9 +20,9 @@ public class POIController {
     public ResponseEntity<String> create(@RequestBody POI poi){
         try {
             poiServices.confirmNew(poi);
-            return ResponseEntity.status(HttpStatus.CREATED).body("POI created successfully");
+            return ResponseEntity.status(HttpStatus.CREATED).body("\"POI created successfully\"");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating POI: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"Error creating POI: " + e.getMessage() + "\"");
         }
     }
 

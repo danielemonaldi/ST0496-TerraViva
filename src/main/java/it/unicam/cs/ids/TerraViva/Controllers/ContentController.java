@@ -32,13 +32,13 @@ public class ContentController {
             Optional<POI> poi = poiServices.getPOI(reference);
             if(poi.isPresent()) {
                 contentServices.confirmNew(content, poi.get());
-                return ResponseEntity.status(HttpStatus.CREATED).body("Content uploaded successfully");
+                return ResponseEntity.status(HttpStatus.CREATED).body("\"Content uploaded successfully\"");
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Error uploading content: no reference entity with the given ID");
+                        .body("\"Error uploading content: no reference entity with the given ID\"");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error uploading content: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"Error uploading content: " + e.getMessage() + "\"");
         }
     }
 
@@ -48,13 +48,13 @@ public class ContentController {
             Optional<Contest> contest = contestServices.getContest(reference);
             if(contest.isPresent()) {
                 contentServices.confirmNew(content, contest.get());
-                return ResponseEntity.status(HttpStatus.CREATED).body("Content uploaded successfully");
+                return ResponseEntity.status(HttpStatus.CREATED).body("\"Content uploaded successfully\"");
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Error uploading content: no reference entity with the given ID");
+                        .body("\"Error uploading content: no reference entity with the given ID\"");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error uploading content: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"Error uploading content: " + e.getMessage() + "\"");
         }
     }
 
@@ -62,9 +62,9 @@ public class ContentController {
     public ResponseEntity<String> createContestContent(@RequestBody Content content, @RequestParam String social) {
         try {
             contentServices.publish(content, social);
-            return ResponseEntity.status(HttpStatus.OK).body("Content published successfully");
+            return ResponseEntity.status(HttpStatus.OK).body("\"Content published successfully\"");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error publishing content: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("\"Error publishing content: " + e.getMessage() + "\"");
         }
     }
 
